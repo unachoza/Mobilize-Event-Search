@@ -31,6 +31,7 @@ class App extends Component {
         },
         url: event.browser_url || null,
         eventImg: event.featured_image_url || null,
+        show: false
       };
     });
     console.log(fetchedEvents);

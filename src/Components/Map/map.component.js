@@ -40,7 +40,7 @@ const Map = ({ coordinates }) => {
           id="circle-example"
           mapContainerStyle={{
             height: '60vh',
-            width: '65vw',
+            width: '60vw',
             overflow: 'hidden',
             borderRadius: '20px',
             border: 'none',

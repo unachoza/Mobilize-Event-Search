@@ -28,7 +28,7 @@ class Pagination extends Component {
     for (let i = 1; i <= Math.ceil(totalEvents / this.state.eventsPerPage); i++) {
       pageNumbers.push(i);
     }
-   const pageButtons = ['<', '*', '>']
+   const pageButtons = ['<', '#', '>']
 
     return (
       <div className="page-buttons-container">

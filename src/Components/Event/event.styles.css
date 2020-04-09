@@ -4,10 +4,9 @@
   flex-direction: column;
   text-align: center;
   margin: 20px 5px;
-  color: white;
-  padding: 5px;
-  font-size: 20px;
-  background-color: #004ac7;
+  color: #004ac7;
+  padding: 6px 0px 6px 12px;
+  background-color: white;
   border-radius: 10px;
   overflow: hidden;
   backface-visibility: hidden;
@@ -15,15 +14,26 @@
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
 }
 .event-card:hover {
-  border: solid 1px #0d0a92;
-  /* box-shadow: 0px 5px 10px rgba(13, 10, 146, 0.4); */
+  color: white;
+  background-color: #004ac7;
 }
-
-
+.event-card__date {
+  text-align: left;
+  padding: 5px;
+  font-size: 12px;
+}
+.event-card__date:after {
+  content: '';
+  display: block;
+  width: 90%;
+  padding-top: 3px;
+  border-bottom: solid 1px rgb(161, 159, 159);
+}
 .event-card__title {
-  font-size: 18px;
+  font-size: 15px;
   margin: 10px 2px;
   font-weight: 700;
+  text-align: left;
 }
 
 .event-card__description {

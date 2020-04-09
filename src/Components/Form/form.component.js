@@ -67,10 +67,10 @@ class Form extends Component {
             type="submit"
             className="zipcode"
             style={{
-              marginLeft: '10px',
-              position: 'relative',
-              top: '-5px',
-              boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+              height: '37px',
+              position: 'absolute',
+             boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+              fontWeight: '450'
             }}
           >
             Search

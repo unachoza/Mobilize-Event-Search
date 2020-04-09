@@ -18,26 +18,26 @@ code {
   text-align: center;
 }
 .header__title {
-  font-size: 40px;
+  font-size: 30px;
 }
 
 button {
   border: none;
   border-radius: 10px;
   background-color: white;
-  color: #2d28ff;
-  height: 45px;
-  width: 100px;
+  color: #004ac7;
+  height: 35px;
+  width: 80px;
   font-size: 15px;
   font-weight: 600;
   justify-content: space-between;
   transition: transform 0.3s;
 }
 button:hover {
-  transform: translateY(-10px) scale(1.05);
+  transform:  scale(1.05);
 }
 
 button:active {
   outline: none;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
