@@ -47,9 +47,15 @@ class Form extends Component {
   //     : this.setState({ query: `${MOBILZE_BASE_URL}?zipcode=${input}` });
   //   console.log(this.state, 'after validate func');
   // };
+  formFunc = (event) => {
+    event.preventDefault();
+    console.log('wo');
+    this.props.upDateRequestUrl(this.state.query);
+  };
+
   render() {
-    const { handleSubmit } = this.props;
-    const { errorMessage } = this.state;
+    console.log('everytie', this.props);
+    console.log(this.state);
     return (
       <div className="form-container">
         <form className="zip-input">
@@ -58,19 +64,20 @@ class Form extends Component {
             id="zip-input"
             className="zip-input"
             placeholder="enter zip code"
-            name="zipcode"
             component="input"
             type="text"
-            // onBlur={e => this.validateZipCode(e.target.value)}
+           
+            onBlur={(e) => this.setState({ query: e.target.value })}
           />
           <button
             type="submit"
+            onClick={this.formFunc}
             className="zipcode"
             style={{
               height: '37px',
               position: 'absolute',
-             boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
-              fontWeight: '450'
+              boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+              fontWeight: '450',
             }}
           >
             Search
