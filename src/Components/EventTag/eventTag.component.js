@@ -49,7 +49,7 @@ const EventTag = ({ tag }) => {
 
   return (
     <div className="tag" style={tagColor(tag)}>
-      {tag}
+      {tag.replace(new RegExp('_', 'g')," ")}
     </div>
   );
 };
