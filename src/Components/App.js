@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Map from 'Components/Map/map.component';
+import Form from 'Components/Form/form.component'
 import { eventsFetch } from 'API/MobilizeFetch';
 
 const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events';
@@ -13,8 +14,7 @@ class App extends Component {
    console.log('start');
     const response = await eventsFetch(this.state.requestURL);
     const data = await response.json();
-    const fetchedEvents = await data.data.map((event, i) => {
-     console.log("this is being fetched", event);
+    const fetchedEvents = await data.data.map(event => {
       return { 
         id: event.id,
         eventType: event.event_type,
@@ -41,7 +41,8 @@ class App extends Component {
   console.log('once or twice')
     return (
       <div>
-        <div>Search Mobilze API for events displayed on map</div>
+      <div>Search Mobilze API for events displayed on map</div>
+      <Form/>
         <Map />
       </div>
     );
