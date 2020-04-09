@@ -41,7 +41,8 @@ class Form extends Component {
     event.preventDefault();
     console.log('submitted', this.state);
     this.props.upDateRequestUrl(this.state.query + (this.doneAddingEvents()));
-    document.querySelectorAll('input[type=checkbox]').forEach( el => el.checked = false )
+    document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false)
+    this.setState({eventTypeQuery: []})
   };
   handleChange = (event) => {
     const { value } = event.target;
