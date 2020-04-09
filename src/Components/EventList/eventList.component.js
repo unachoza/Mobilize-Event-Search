@@ -37,15 +37,25 @@ class EventList extends Component {
     //       .map(item => (
     //         <CollectionItem key={item.id} item={item} />
     //       ))}
-
     return (
       <div className="event-list-container">
-        {Object.values(events)
+        {/* {Object.values(events)
           .filter((event, i) => i < 4)
           .map(({ id, ...otherEventProps }) => (
             <Event key={id} {...otherEventProps} />
-          ))}
-        <Pagination events={events} />
+          ))} */}
+        {!events.length > 0 ? (
+          <div>Oh dear! Your search returned no events.</div>
+        ) : (
+          Object.values(events)
+            .filter((event, i) => i < 4)
+              .map(({ id, ...otherEventProps }) => <Event key={id} {...otherEventProps} />)
+            
+          )
+        
+        }
+        {events.length > 0  && <Pagination events={events} />}
+        
       </div>
     );
   }
