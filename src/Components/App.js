@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 import Map from 'Components/Map/map.component';
-import MobilizeFetch from 'API/MobilizeFetch';
-import { eventsFetch } from '../API/MobilizeFetch';
+import { eventsFetch } from 'API/MobilizeFetch';
 
 const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events';
 
 class App extends Component {
  state = {
- fetchedEvents: []
+  fetchedEvents: [],
+  requestURL: MOBILZE_BASE_URL
  }
   componentDidMount = async () => {
    console.log('start');
-   // const fetchedEvents = []
-    const response = await eventsFetch(MOBILZE_BASE_URL);
+    const response = await eventsFetch(this.state.requestURL);
     const data = await response.json();
     const fetchedEvents = await data.data.map((event, i) => {
      console.log("this is being fetched", event);
-     // fetchedEvents.push(i)
-      return {
+      return { 
         id: event.id,
         eventType: event.event_type,
         title: event.title,
@@ -35,8 +33,9 @@ class App extends Component {
    console.log(fetchedEvents)
    this.setState({fetchedEvents})
   };
- 
-
+ upDateRequestUrl = (input) => {
+ this.setState(prevState => ({requestURL: prevState + input}))
+ }
  render() {
   console.log(this.state)
   console.log('once or twice')
