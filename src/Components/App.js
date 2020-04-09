@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Map from 'Components/Map/map.component';
 import Form from 'Components/Form/form.component'
+import EventList from 'Components/EventList/eventList.component'
 import { eventsFetch } from 'API/MobilizeFetch';
 
-const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events';
+const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events?per_page=7';
 
 class App extends Component {
  state = {
@@ -42,6 +43,7 @@ class App extends Component {
     return (
       <div>
       <div>Search Mobilze API for events displayed on map</div>
+      <EventList events={this.state.fetchedEvents}/>
       <Form/>
         <Map />
       </div>
