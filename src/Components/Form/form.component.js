@@ -2,20 +2,16 @@ import React, { Component } from 'react';
 import 'Components/Form/form.styles.css';
 
 const eventTypes = [
-  'CANVASS',
-  'PHONE BANK',
-  'FUNDRAISER',
-  'VOTER REG',
-  'TRAINING',
-  'DEBATE WATCH PARTY',
-  'TOWN HALL',
-  'BARNSTORM',
-  'SIGNATURE GATHERING',
+  'canvass',
+  'phone_bank ',
+  'fundraiser',
+  'voter_reg',
+  'training',
+  'debate_watch_party',
+  'town_hall',
+  'barnstorm',
+  'signature_gathering',
 ];
-
-// const submit = (values) => {
-//   console.log('these are the values', values);
-// };
 
 // const validZipCodeRegEx = /^(\d{5}(?:\-\d{4})?)$/;
 // const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events';
@@ -23,22 +19,10 @@ const eventTypes = [
 class Form extends Component {
   state = {
     errorMessage: null,
-    query: '',
+    zipQuery: '',
+    eventTypeQuery: [],
+    
   };
-
-  // componentDidMount() {
-  //   console.log(this.state);
-  // }
-
-  // componentDidUpdate(prevstate, props) {
-  //   console.log(prevstate.zipCodeQuery, 'that wasquery ', this.props.zipCodeQuery);
-  //   // Typical usage (don't forget to compare props):
-  //   console.log(this.props.fetchEventsRequestAsync(this.props.zipCodeQuery));
-  //   if (prevstate.zipCodeQuery !== this.props.zipCodeQuery) {
-  //     this.props.showEventDetails();
-  //     this.props.fetchEventsRequestAsync(this.props.zipCodeQuery);
-  //   }
-  // }
 
   // validateZipCode = (input) => {
   //   console.log('input begin validataioned', `${MOBILZE_BASE_URL}?zipcode=${input}`);
@@ -47,15 +31,34 @@ class Form extends Component {
   //     : this.setState({ query: `${MOBILZE_BASE_URL}?zipcode=${input}` });
   //   console.log(this.state, 'after validate func');
   // };
-  formFunc = (event) => {
+  zipcodeQuery = (event) => {
     event.preventDefault();
     console.log('wo');
     this.props.upDateRequestUrl(this.state.query);
   };
 
+  eventTypeQuery = (event) => {
+    event.preventDefault();
+    console.log('submitted', this.state);
+    this.props.upDateRequestUrl(this.state.query + (this.doneAddingEvents()));
+    document.querySelectorAll('input[type=checkbox]').forEach( el => el.checked = false )
+  };
+  handleChange = (event) => {
+    const { value } = event.target;
+    this.setState((prevState) => ({ eventTypeQuery: [...prevState.eventTypeQuery, value] }));
+    console.log(this.state.eventTypeQuery)
+  };
+  doneAddingEvents = () => {
+    
+    const moreInputs =
+      this.state.eventTypeQuery.length > 1
+        ? this.state.eventTypeQuery.map((type) => '&event_types=' + type).join('')
+        : '&event_types=' + this.state.eventTypeQuery ;
+    this.props.upDateRequestUrl(this.state.query, moreInputs);
+    return moreInputs
+  };
+
   render() {
-    console.log('everytie', this.props);
-    console.log(this.state);
     return (
       <div className="form-container">
         <form className="zip-input">
@@ -66,12 +69,11 @@ class Form extends Component {
             placeholder="enter zip code"
             component="input"
             type="text"
-           
             onBlur={(e) => this.setState({ query: e.target.value })}
           />
           <button
             type="submit"
-            onClick={this.formFunc}
+            onClick={this.zipcodeQuery}
             className="zipcode"
             style={{
               height: '37px',
@@ -83,15 +85,18 @@ class Form extends Component {
             Search
           </button>
         </form>
-        <form className="form">
+        <form className="form" onSubmit={(label) => this.eventTypeQuery(label)}>
           {eventTypes.map((event, i) => {
             return (
               <div key={i} className="event-type-option">
-                <input type="checkbox" id={event} name={event} value={event} hidden />
-                <label for={event}>{event.toLowerCase()}</label>
+                <input type="checkbox" id={event} name={event} value={event} hidden onClick={this.handleChange} />
+                <label for={event} value={event}>
+                  {(event.replace(new RegExp('_', 'g')," ")).toLowerCase()}
+                </label>
               </div>
             );
           })}
+          <input type="submit" value="submit" />
         </form>
       </div>
     );

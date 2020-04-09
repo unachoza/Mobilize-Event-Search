@@ -15,30 +15,16 @@ const App = () => {
   useEffect(() => {
     const getEvents = async () => {
       const fetchedEvents = await eventsFetch(requestURL);
-      console.log(eventsFetch(requestURL));
-      console.log(fetchedEvents);
       setFetchedEvents(fetchedEvents);
     };
     getEvents();
   }, [requestURL]);
 
-  // componentWillUpdate =  async (newProps, newState) => {
-  //   console.log('did it! Component is updating ', newProps, newState)
-  //   const fetchedEvents = await eventsFetch(this.state.requestURL);
-
-  //   console.log(fetchedEvents)
-  //   this.setState({ fetchedEvents });
-  // };
-
-  const upDateRequestUrl = (input) => {
-    console.log('in here', input);
-    setRequestURL(MOBILZE_BASE_URL + '&zipcode=' + input);
+  const upDateRequestUrl = (input, moreInputs = '') => {
+    
+    setRequestURL(MOBILZE_BASE_URL + '&zipcode=' + input + moreInputs);
   };
-
-  const works = (input) => console.log(input);
-
-  console.log('this is state', requestURL);
-  console.log('rendering once or twice');
+console.log(fetchedEvents)
   return (
     <div>
       <Header />
