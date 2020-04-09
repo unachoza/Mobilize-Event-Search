@@ -1,4 +1,5 @@
 import React from 'react';
+import 'Components/Event/event.styles.css'
 
 const Event = (otherEventProps) => {
   const getDate = (unixTimestamp) => {

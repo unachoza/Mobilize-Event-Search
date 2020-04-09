@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'Components/Form/form.styles.css';
 
 const eventTypes = [
   'CANVASS',
@@ -80,7 +81,7 @@ class Form extends Component {
             return (
               <div key={i} className="event-type-option">
                 <input type="checkbox" id={event} name={event} value={event} hidden />
-                <label>{event.toLowerCase()}</label>
+                <label for={event}>{event.toLowerCase()}</label>
               </div>
             );
           })}

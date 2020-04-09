@@ -1,0 +1,15 @@
+.event-list-container {
+
+  border-radius: 10px;
+  box-shadow: black;
+  width: 30vw;
+  height: 80vh;
+  margin-top: 22vh;
+  /* text-align: left; */
+  overflow: scroll;
+}
+
+.event-list__title {
+  text-align: center;
+  width: 30vw;
+}

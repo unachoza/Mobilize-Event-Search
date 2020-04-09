@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import "Components/Pagination/pagination.styles.css"
 
 class Pagination extends Component {
   state = {
@@ -27,20 +28,24 @@ class Pagination extends Component {
     for (let i = 1; i <= Math.ceil(totalEvents / this.state.eventsPerPage); i++) {
       pageNumbers.push(i);
     }
+   const pageButtons = ['<', '*', '>']
 
     return (
       <div className="page-buttons-container">
-        {pageNumbers.map((page, i) => (
+        {pageButtons.map((page, i) => (
           <li key={i} className="page-button">
             <a onClick={() => paginate(page)} href="!#" className="page-link">
               {page}
             </a>
           </li>
         ))}
+        {/* <a onClick={() => paginate(page)} href="!#" className="page-link">
+              {page}
+            </a> */}
 
-        <button className="page-button">Previous</button>
+        {/* <button className="page-button">Previous</button>
         <button className="page-button">Current Page</button>
-        <button className="page-button">Next</button>
+        <button className="page-button">Next</button> */}
       </div>
     );
   }

@@ -1,0 +1,35 @@
+.page-buttons-container {
+  display: flex;
+  justify-content: space-around;
+}
+.page-button {
+  border: none;
+  border-radius: 10px;
+  background-color: white;
+  color: #2d28ff;
+  height: 50px;
+  width: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  justify-content: space-between;
+  transition: transform 0.3s;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  list-style-type: none;
+  overflow: hidden;
+}
+.page-button:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+
+.page-button:active {
+  outline: none;
+  transform: translateY(-1px);
+}
+.page-link {
+  display: flex;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 30px;
+}
