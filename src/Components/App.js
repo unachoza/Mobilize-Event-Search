@@ -1,94 +1,55 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Map from 'Components/Map/map.component';
 import Form from 'Components/Form/form.component';
 import EventList from 'Components/EventList/eventList.component';
 import Header from 'Components/Header/header.component';
-import { eventsFetch } from 'API/MobilizeFetch';
+import eventsFetch from 'API/MobilizeFetch';
 import 'Components/App.css';
 
 const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events?per_page=2';
 
-class App extends Component {
-  state = {
-    fetchedEvents: [],
-    requestURL: MOBILZE_BASE_URL,
-  };
-  
-  componentDidMount = async () => {
-    console.log('start');
-    const response = await eventsFetch(this.state.requestURL);
-    const data = await response.json();
-    const fetchedEvents = await data.data.map((event) => {
-      return {
-        id: event.id,
-        eventType: event.event_type,
-        title: event.title,
-        details: event.description,
-        zipcode: event.location?.postal_code || null,
-        coordinates: event.location?.location || null,
-        eventDate: {
-          start: event.timeslots[0]?.start_date || null,
-          end_date: event.timeslots[0]?.end_date || null,
-        },
-        url: event.browser_url || null,
-        eventImg: event.featured_image_url || null,
-        show: false,
-      };
-    });
-    console.log(fetchedEvents);
-    this.setState({ fetchedEvents });
-  };
-  
-  componentWillUpdate =  async (newProps, newState) => {
-    console.log('did it! Component is updating ', newProps, newState)
-    const response = await eventsFetch(this.state.requestURL);
-    const data = await response.json();
-    const fetchedEvents = await data.data.map((event) => {
-      return {
-        id: event.id,
-        eventType: event.event_type,
-        title: event.title,
-        details: event.description,
-        zipcode: event.location?.postal_code || null,
-        coordinates: event.location?.location || null,
-        eventDate: {
-          start: event.timeslots[0]?.start_date || null,
-          end_date: event.timeslots[0]?.end_date || null,
-        },
-        url: event.browser_url || null,
-        eventImg: event.featured_image_url || null,
-        show: false,
-      };
-    });
-    console.log(fetchedEvents);
-    this.setState({ fetchedEvents });
-  
-  }
+const App = () => {
+  const [fetchedEvents, setFetchedEvents] = useState([]);
+  const [requestURL, setRequestURL] = useState(MOBILZE_BASE_URL);
 
-  upDateRequestUrl = (input) => {
+  useEffect(() => {
+    const getEvents = async () => {
+      const fetchedEvents = await eventsFetch(requestURL);
+      console.log(eventsFetch(requestURL));
+      console.log(fetchedEvents);
+      setFetchedEvents(fetchedEvents);
+    };
+    getEvents();
+  }, [requestURL]);
+
+  // componentWillUpdate =  async (newProps, newState) => {
+  //   console.log('did it! Component is updating ', newProps, newState)
+  //   const fetchedEvents = await eventsFetch(this.state.requestURL);
+
+  //   console.log(fetchedEvents)
+  //   this.setState({ fetchedEvents });
+  // };
+
+  const upDateRequestUrl = (input) => {
     console.log('in here', input);
-    this.setState((prevState) => ({ requestURL: prevState.requestURL + "&zipcode=" + input }));
-    
+    setRequestURL((prevRequestURL) => prevRequestURL + '&zipcode=' + input);
   };
 
-  works = (input) => console.log(input);
+  const works = (input) => console.log(input);
 
-  render() {
-    console.log(this.state);
-    console.log('rendering once or twice');
-    return (
-      <div>
-        <Header />
-        <div className="body">
-          <EventList events={this.state.fetchedEvents} />
-          <div className="main-page">
-            <Form upDateRequestUrl={this.upDateRequestUrl} />
-            <Map />
-          </div>
+  console.log('rendering once or twice');
+  return (
+    <div>
+      <Header />
+      <div className="body">
+        <EventList events={fetchedEvents} />
+        <div className="main-page">
+          <Form upDateRequestUrl={upDateRequestUrl} />
+          <Map />
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default App;
