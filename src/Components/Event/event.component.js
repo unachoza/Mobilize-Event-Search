@@ -3,7 +3,6 @@ import EventTag from 'Components/EventTag/eventTag.component'
 import 'Components/Event/event.styles.css'
 
 const Event = (otherEventProps) => {
-  console.log("where is here", otherEventProps)
   const getDate = (unixTimestamp) => {
     const milliseconds = unixTimestamp * 1000; // 1575909015000
     const dateObject = new Date(milliseconds);

@@ -6,7 +6,7 @@ import Header from 'Components/Header/header.component';
 import eventsFetch from 'API/MobilizeFetch';
 import 'Components/App.css';
 
-const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events?per_page=2';
+const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events?per_page=4';
 
 const App = () => {
   const [fetchedEvents, setFetchedEvents] = useState([]);
@@ -32,11 +32,12 @@ const App = () => {
 
   const upDateRequestUrl = (input) => {
     console.log('in here', input);
-    setRequestURL((prevRequestURL) => prevRequestURL + '&zipcode=' + input);
+    setRequestURL(MOBILZE_BASE_URL + '&zipcode=' + input);
   };
 
   const works = (input) => console.log(input);
 
+  console.log('this is state', requestURL);
   console.log('rendering once or twice');
   return (
     <div>
