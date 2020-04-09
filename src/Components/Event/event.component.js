@@ -10,7 +10,7 @@ const Event = (otherEventProps) => {
   };
 
   const { title, details, showEventDetails, showDetails, eventDate, eventType } = otherEventProps;
-  console.log(showDetails);
+  // console.log(showDetails);
   return (
     <div className="event-card">
       <div className="event-card__title" onClick={() => showEventDetails(otherEventProps)}>

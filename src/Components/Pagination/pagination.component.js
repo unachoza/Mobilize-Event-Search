@@ -2,19 +2,28 @@ import React, { Component } from 'react';
 
 class Pagination extends Component {
   state = {
-    lastEventIndex: null,
-    firstEventIndex: 1,
-    eventsPerPage: 2,
+    eventsPerPage: 5,
     currentPage: 1,
   };
 
+  // Get current posts
+  // const indexOfLastPost = currentPage * postsPerPage;
+  // const indexOfFirstPost = indexOfLastPost - eventsPerPage;
+
   render() {
-    const totalEvents = this.props.events.length;
-    const totalPages = totalEvents / this.state.eventsPerPage;
-    // console.log(totalEvents, eventsPerPage, totalPages);
-    // console.log('passed down', this.props);
-    // console.log('on this component', this.state);
-    const pageNumbers = [];
+    const {  currentPage, eventsPerPage } = this.state;
+   const totalEvents = this.props.events.length;
+   const lastEventIndex = currentPage * eventsPerPage;
+   const firstEventIndex = lastEventIndex - eventsPerPage
+    const currentEventsDisplayed = this.props.events.slice(firstEventIndex, lastEventIndex);
+   
+   let pageNumbers = [];
+   
+   
+    // CHANGE PAGE
+    const paginate = (pageNumber) => this.setState({ currentPage: pageNumber });
+
+    //CREATE BUTTONS
     for (let i = 1; i <= Math.ceil(totalEvents / this.state.eventsPerPage); i++) {
       pageNumbers.push(i);
     }
@@ -23,7 +32,9 @@ class Pagination extends Component {
       <div className="page-buttons-container">
         {pageNumbers.map((page, i) => (
           <li key={i} className="page-button">
-            {page}
+            <a onClick={() => paginate(page)} href="!#" className="page-link">
+              {page}
+            </a>
           </li>
         ))}
 
