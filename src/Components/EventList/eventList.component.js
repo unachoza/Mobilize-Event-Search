@@ -15,11 +15,12 @@ class EventList extends Component {
   // const indexOfFirstPost = indexOfLastPost - eventsPerPage;
 
   render() {
+    console.log("props foem here", this.props)
     const { currentPage, eventsPerPage } = this.state;
-    const totalEvents = this.props.events.length;
+    const totalEvents = this.props.events.fetchedEvents.data.length;
     const lastEventIndex = currentPage * eventsPerPage;
     const firstEventIndex = lastEventIndex - eventsPerPage;
-    const currentEventsDisplayed = this.props.events.slice(firstEventIndex, lastEventIndex);
+    const currentEventsDisplayed = this.props.events.fetchedEvents.data.slice(firstEventIndex, lastEventIndex);
 
     let pageNumbers = [];
 

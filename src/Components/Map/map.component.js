@@ -4,14 +4,16 @@ import 'Components/Map/map.styles.css';
 import { Marker } from '@react-google-maps/api';
 import EventsContext from 'Context/Events/event.context';
 
+// const APIkey = process.env.GOOGLE_MAPS_API_KEY;
 
+const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 const Map = () => {
+
   const fetchedEvents = useContext(EventsContext);
-  console.log('is context working', fetchedEvents);
   return (
     <div className="map-container">
-      <LoadScript id="script-loader" googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
+      <LoadScript id="script-loader" googleMapsApiKey={API_KEY}>
         <GoogleMap
           id="circle-example"
           mapContainerStyle={{
@@ -36,9 +38,7 @@ const Map = () => {
                   lng: event.coordinates.lng,
                 };
               });
-              console.log('checkout this marker array', markerArray);
               markerArray.map((marker, i) => {
-                console.log(marker);
                 return <Marker key={i} position={{lat: 42.23748,
             lng: -74.77027}}/>;
               });

@@ -1,65 +1,55 @@
 import React, { Component } from 'react';
+import AddEventFilter from 'Components/Form/AddEventFilter/addEventFilter.component';
 import 'Components/Form/form.styles.css';
 
-const eventTypes = [
-  'canvass',
-  'phone_bank ',
-  'fundraiser',
-  'voter_reg',
-  'training',
-  'debate_watch_party',
-  'town_hall',
-  'barnstorm',
-  'signature_gathering',
-];
-
-// const validZipCodeRegEx = /^(\d{5}(?:\-\d{4})?)$/;
-// const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events';
+const validZipCodeRegEx =/^(\d{5}(?:-\d{4})?)$/
+const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events';
 
 class Form extends Component {
   state = {
     errorMessage: null,
     zipQuery: '',
     eventTypeQuery: [],
-    
   };
 
   // validateZipCode = (input) => {
-  //   console.log('input begin validataioned', `${MOBILZE_BASE_URL}?zipcode=${input}`);
-  //   !input.match(validZipCodeRegEx)
-  //     ? this.setState({ errorMessage: 'please enter valid zip code' })
-  //     : this.setState({ query: `${MOBILZE_BASE_URL}?zipcode=${input}` });
+  //   console.log('input begin validataioned' ,  !input.match(validZipCodeRegEx));
+  //    !input.match(validZipCodeRegEx)
+  //     && this.setState({ errorMessage: 'please enter valid zip code' })
+  //     // : this.setState({ query: `${MOBILZE_BASE_URL}?zipcode=${input}` });
   //   console.log(this.state, 'after validate func');
   // };
   zipcodeQuery = (event) => {
     event.preventDefault();
-    console.log('wo');
+    console.log('wo' );
+    // this.validateZipCode(this.state.query)
     this.props.upDateRequestUrl(this.state.query);
   };
 
   eventTypeQuery = (event) => {
     event.preventDefault();
     console.log('submitted', this.state);
-    this.props.upDateRequestUrl(this.state.query + (this.doneAddingEvents()));
-    document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false)
-    this.setState({eventTypeQuery: []})
+    this.props.upDateRequestUrl(this.state.query + this.doneAddingEvents());
+    document.querySelectorAll('input[type=checkbox]').forEach((el) => (el.checked = false));
+    this.setState({ eventTypeQuery: [] });
   };
   handleChange = (event) => {
     const { value } = event.target;
     this.setState((prevState) => ({ eventTypeQuery: [...prevState.eventTypeQuery, value] }));
-    console.log(this.state.eventTypeQuery)
+    console.log(this.state.eventTypeQuery);
   };
   doneAddingEvents = () => {
-    
     const moreInputs =
       this.state.eventTypeQuery.length > 1
         ? this.state.eventTypeQuery.map((type) => '&event_types=' + type).join('')
-        : '&event_types=' + this.state.eventTypeQuery ;
+        : '&event_types=' + this.state.eventTypeQuery;
     this.props.upDateRequestUrl(this.state.query, moreInputs);
-    return moreInputs
+    return moreInputs;
   };
 
   render() {
+    
+    const { handleChange, eventTypeQuery, zipcodeQuery } = this;
     return (
       <div className="form-container">
         <form className="zip-input">
@@ -74,7 +64,7 @@ class Form extends Component {
           />
           <button
             type="submit"
-            onClick={this.zipcodeQuery}
+            onClick={zipcodeQuery}
             className="zipcode"
             style={{
               height: '37px',
@@ -86,19 +76,7 @@ class Form extends Component {
             Search
           </button>
         </form>
-        <form className="form" onSubmit={(label) => this.eventTypeQuery(label)}>
-          {eventTypes.map((event, i) => {
-            return (
-              <div key={i} className="event-type-option">
-                <input type="checkbox" id={event} name={event} value={event} hidden onClick={this.handleChange} />
-                <label for={event} value={event}>
-                  {(event.replace(new RegExp('_', 'g')," ")).toLowerCase()}
-                </label>
-              </div>
-            );
-          })}
-          <input type="submit" value="submit" />
-        </form>
+        <AddEventFilter handleChange={handleChange} eventTypeQuery={eventTypeQuery} />
       </div>
     );
   }
