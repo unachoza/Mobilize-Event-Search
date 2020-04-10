@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import AddEventFilter from 'Components/Form/AddEventFilter/addEventFilter.component';
+import { useEventsFetch } from 'API/MobilizeFetch';
 import 'Components/Form/form.styles.css';
 
 const validZipCodeRegEx =/^(\d{5}(?:-\d{4})?)$/
 const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events';
 
-class Form extends Component {
-  state = {
-    errorMessage: null,
-    zipQuery: '',
-    eventTypeQuery: [],
-  };
+const Form = () => {
+ 
+  const[zipQuery, setZipQuery] = useState(null)
+    const [eventTypeQuery, setEventTypeQuery] = useState([])
 
   // validateZipCode = (input) => {
   //   console.log('input begin validataioned' ,  !input.match(validZipCodeRegEx));
@@ -19,26 +18,26 @@ class Form extends Component {
   //     // : this.setState({ query: `${MOBILZE_BASE_URL}?zipcode=${input}` });
   //   console.log(this.state, 'after validate func');
   // };
-  zipcodeQuery = (event) => {
+ const  zipcodeQuery = (event) => {
     event.preventDefault();
     console.log('wo' );
     // this.validateZipCode(this.state.query)
     this.props.upDateRequestUrl(this.state.query);
   };
 
-  eventTypeQuery = (event) => {
+  const eventTypeQuerier = (event) => {
     event.preventDefault();
     console.log('submitted', this.state);
     this.props.upDateRequestUrl(this.state.query + this.doneAddingEvents());
     document.querySelectorAll('input[type=checkbox]').forEach((el) => (el.checked = false));
     this.setState({ eventTypeQuery: [] });
   };
-  handleChange = (event) => {
+ const handleChange = (event) => {
     const { value } = event.target;
     this.setState((prevState) => ({ eventTypeQuery: [...prevState.eventTypeQuery, value] }));
     console.log(this.state.eventTypeQuery);
   };
-  doneAddingEvents = () => {
+  const doneAddingEvents = () => {
     const moreInputs =
       this.state.eventTypeQuery.length > 1
         ? this.state.eventTypeQuery.map((type) => '&event_types=' + type).join('')
@@ -47,9 +46,8 @@ class Form extends Component {
     return moreInputs;
   };
 
-  render() {
     
-    const { handleChange, eventTypeQuery, zipcodeQuery } = this;
+    // const { handleChange, eventTypeQuery, zipcodeQuery } = this;
     return (
       <div className="form-container">
         <form className="zip-input">
@@ -60,7 +58,7 @@ class Form extends Component {
             placeholder="enter zip code"
             component="input"
             type="text"
-            onBlur={(e) => this.setState({ query: e.target.value })}
+            onBlur={(e) => setZipQuery(e.target.value )}
           />
           <button
             type="submit"
@@ -79,7 +77,6 @@ class Form extends Component {
         <AddEventFilter handleChange={handleChange} eventTypeQuery={eventTypeQuery} />
       </div>
     );
-  }
 }
 
 export default Form;

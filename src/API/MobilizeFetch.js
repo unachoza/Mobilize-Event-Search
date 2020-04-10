@@ -8,8 +8,8 @@ export const useEventsFetch = (requestURL, defaultResponse) => {
     setFetchedEvents({fetchedEvents:data, loading:false});
   };
   useEffect(() => {
-    getEvents(requestURL);
-  }, []);
+    getEvents(requestURL);  
+  }, [requestURL]);
   return fetchedEvents
 };
 

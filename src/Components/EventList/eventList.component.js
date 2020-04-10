@@ -40,11 +40,6 @@ class EventList extends Component {
     //       ))}
     return (
       <div className="event-list-container">
-        {/* {Object.values(events)
-          .filter((event, i) => i < 4)
-          .map(({ id, ...otherEventProps }) => (
-            <Event key={id} {...otherEventProps} />
-          ))} */}
         {!events.length > 0 ? (
           <div className="no-results">
             Oh dear!<br></br> Your search returned no events.
