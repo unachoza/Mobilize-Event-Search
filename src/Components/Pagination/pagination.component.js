@@ -13,7 +13,8 @@ class Pagination extends Component {
 
   render() {
     const {  currentPage, eventsPerPage } = this.state;
-   const totalEvents = this.props.events.length;
+    const totalEvents = this.props.events.length;
+     const totalPages = Math.ceil(totalEvents / eventsPerPage)
    const lastEventIndex = currentPage * eventsPerPage;
    const firstEventIndex = lastEventIndex - eventsPerPage
     const currentEventsDisplayed = this.props.events.slice(firstEventIndex, lastEventIndex);
@@ -25,27 +26,21 @@ class Pagination extends Component {
     const paginate = (pageNumber) => this.setState({ currentPage: pageNumber });
 
     //CREATE BUTTONS
-    for (let i = 1; i <= Math.ceil(totalEvents / this.state.eventsPerPage); i++) {
+    for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(i);
     }
-   const pageButtons = ['<', '#', '>']
+   const pageButtons = ['1','<', '#', '>', totalPages]
 
     return (
       <div className="page-buttons-container">
-        {pageButtons.map((page, i) => (
+       { pageButtons.lenght > 1 ? pageButtons.map((page, i) => (
           <li key={i} className="page-button">
             <a onClick={() => paginate(page)} href="!#" className="page-link">
               {page}
             </a>
           </li>
-        ))}
-        {/* <a onClick={() => paginate(page)} href="!#" className="page-link">
-              {page}
-            </a> */}
-
-        {/* <button className="page-button">Previous</button>
-        <button className="page-button">Current Page</button>
-        <button className="page-button">Next</button> */}
+        )): null }
+        
       </div>
     );
   }
@@ -53,10 +48,4 @@ class Pagination extends Component {
 
 export default Pagination;
 
-// const mapStateToProps = createStructuredSelector({
-//   lastEventIndex: selectLastEventIndex,
-//   firstEventIndex: selectFirstEventIndex,
-//   events: selectFetchEvents,
-//  eventsPerPage: selectEventsPerPage,
-//   currentPage: selectCurrentPage
-// });
+

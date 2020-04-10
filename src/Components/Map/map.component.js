@@ -4,9 +4,7 @@ import 'Components/Map/map.styles.css';
 import { Marker } from '@react-google-maps/api';
 import EventsContext from 'Context/Events/event.context';
 
-// const APIkey = process.env.GOOGLE_MAPS_API_KEY;
 
-const GOOGLE_MAPS_API_KEY = 'AIzaSyBAIUgwAR_dlfIsaPfdoHvq9pCHJDwYUWY';
 
 const Map = () => {
   const fetchedEvents = useContext(EventsContext);

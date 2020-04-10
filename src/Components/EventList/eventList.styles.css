@@ -6,7 +6,7 @@
   height: 80vh;
   margin-top: 13vh;
   overflow: scroll;
-animation: moveInLeft .3s ease-in
+animation: crescendo .3s ease-in
 }
 
 .event-list__title {
