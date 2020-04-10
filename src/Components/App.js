@@ -6,17 +6,22 @@ import Header from 'Components/Header/header.component';
 import eventsFetch from 'API/MobilizeFetch';
 import { EventsContext } from 'Context/Events/event.context';
 import 'Components/App.css';
+import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 
 const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events?per_page=4';
 
 const App = () => {
   const [fetchedEvents, setFetchedEvents] = useState([]);
   const [requestURL, setRequestURL] = useState(MOBILZE_BASE_URL);
+  const [loading, setloading] = useState(false)
+  
 
   useEffect(() => {
+    setloading(true)
     const getEvents = async () => {
       const fetchedEvents = await eventsFetch(requestURL);
       setFetchedEvents(fetchedEvents);
+      setloading(false)
     };
     getEvents();
   }, [requestURL]);
@@ -25,12 +30,15 @@ const App = () => {
     setRequestURL(MOBILZE_BASE_URL + '&zipcode=' + input + moreInputs);
   };
   console.log(fetchedEvents);
+  console.log("this is the loading status", loading)
   return (
     <div>
       <Header />
       <div className="body">
         <EventsContext.Provider value={fetchedEvents}>
-          <EventList events={fetchedEvents} />
+         {loading && <LoadingSpinner loading={loading}/>}
+          
+          <EventList events={fetchedEvents} loading={loading} />
           <div className="main-page">
             <Form upDateRequestUrl={upDateRequestUrl} />
             <Map />

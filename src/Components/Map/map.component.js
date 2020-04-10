@@ -6,36 +6,11 @@ import EventsContext from 'Context/Events/event.context';
 
 // const APIkey = process.env.GOOGLE_MAPS_API_KEY;
 
+const GOOGLE_MAPS_API_KEY = 'AIzaSyBAIUgwAR_dlfIsaPfdoHvq9pCHJDwYUWY';
 
-
-const position =
-[{
-  lat: 42.33748,
-  lng: -74.77027
-},
-  {
-    lat: 42.23748,
-    lng: -74.77027
-  },
-  {
-    lat: 42.43748,
-    lng: -74.77027,
-  },
-  {
-    lat: 42.23748,
-    lng: -74.77027,
-  }]
-// const position =
-// {
-//   lat: 42.33748,
-//   lng: -74.77027
-// }
-
-const Map = ({ coordinates }) => {
-  // console.log('this is location obj', coordinates);
-  // console.log();
-  const fetchedEvents = useContext(EventsContext)
-  console.log("is context working" , fetchedEvents)
+const Map = () => {
+  const fetchedEvents = useContext(EventsContext);
+  console.log('is context working', fetchedEvents);
   return (
     <div className="map-container">
       <LoadScript id="script-loader" googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
@@ -56,22 +31,33 @@ const Map = ({ coordinates }) => {
           }}
         >
           <EventsContext.Consumer>
-            {fetchedEvents => {
-              const markerArray = fetchedEvents.map(event => {
+            {(fetchedEvents) => {
+              const markerArray = fetchedEvents.map((event) => {
                 return {
                   lat: event.coordinates.lat,
-                  lng: event.coordinates.lng
-                }
+                  lng: event.coordinates.lng,
+                };
               });
-              console.log("checkout this marker array", markerArray)
+              console.log('checkout this marker array', markerArray);
               markerArray.map((marker, i) => {
-                console.log(marker)
-                return <Marker key={i} position={marker} />
-              })
-             
-            }
-            }
+                console.log(marker);
+                return <Marker key={i} position={{lat: 42.23748,
+            lng: -74.77027}}/>;
+              });
+            }}
+           
           </EventsContext.Consumer>
+           {/* <Marker position={{ lat: 42.23748,
+            lng: -74.77027
+          }} />
+          <Marker position={{ lat: 41.23740,
+            lng: -74.77027
+          }} />
+           <Marker position={{ lat: 41.23740,
+            lng: -73.77027
+          }} />
+            <Marker position={{ lat: 41.23740,
+            lng: -73.70027}} /> */}
         </GoogleMap>
       </LoadScript>
     </div>
@@ -79,3 +65,6 @@ const Map = ({ coordinates }) => {
 };
 
 export default Map;
+
+ {/* <Marker position={{ lat: 42.23748,
+            lng: -74.77027}} /> */}
