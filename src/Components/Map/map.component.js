@@ -4,25 +4,27 @@ import 'Components/Map/map.styles.css';
 import { Marker } from '@react-google-maps/api';
 import EventsContext from 'Context/Events/event.context';
 
-const AiPIkey = process.env.GOOGLE_MAPS_API_KEY;
+// const APIkey = process.env.GOOGLE_MAPS_API_KEY;
 
-// const position =
-// [{
-//   lat: 42.33748,
-//   lng: -74.77027
-// },
-//   {
-//     lat: 42.23748,
-//     lng: -74.77027
-//   },
-//   {
-//     lat: 42.43748,
-//     lng: -74.77027,
-//   },
-//   {
-//     lat: 42.23748,
-//     lng: -74.77027,
-//   }]
+
+
+const position =
+[{
+  lat: 42.33748,
+  lng: -74.77027
+},
+  {
+    lat: 42.23748,
+    lng: -74.77027
+  },
+  {
+    lat: 42.43748,
+    lng: -74.77027,
+  },
+  {
+    lat: 42.23748,
+    lng: -74.77027,
+  }]
 // const position =
 // {
 //   lat: 42.33748,
@@ -36,7 +38,7 @@ const Map = ({ coordinates }) => {
   console.log("is context working" , fetchedEvents)
   return (
     <div className="map-container">
-      <LoadScript id="script-loader" googleMapsApiKey={AiPIkey}>
+      <LoadScript id="script-loader" googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
         <GoogleMap
           id="circle-example"
           mapContainerStyle={{
@@ -57,11 +59,16 @@ const Map = ({ coordinates }) => {
             {fetchedEvents => {
               const markerArray = fetchedEvents.map(event => {
                 return {
-                  coordinates: event.coordinates
+                  lat: event.coordinates.lat,
+                  lng: event.coordinates.lng
                 }
               });
               console.log("checkout this marker array", markerArray)
-              return <Marker position={markerArray} />
+              markerArray.map((marker, i) => {
+                console.log(marker)
+                return <Marker key={i} position={marker} />
+              })
+             
             }
             }
           </EventsContext.Consumer>

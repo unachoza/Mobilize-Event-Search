@@ -15,7 +15,10 @@ const eventsFetch = async (requestURL) => {
         title: event.title,
         details: event.description,
         zipcode: event.location?.postal_code || null,
-        coordinates: event.location?.location || null,
+        coordinates: {
+          lat: event.location?.location?.latitude || null,
+          lng:event.location?.location?.longitude || null,
+        },
         eventDate: {
           start: event.timeslots[0]?.start_date || null,
           end_date: event.timeslots[0]?.end_date || null,
