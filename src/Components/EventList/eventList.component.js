@@ -45,7 +45,7 @@ class EventList extends Component {
             <Event key={id} {...otherEventProps} />
           ))} */}
         {!events.length > 0 ? (
-          <div>Oh dear! Your search returned no events.</div>
+          <div className="no-results">Oh dear!<br></br> Your search returned no events.</div>
         ) : (
           Object.values(events)
             .filter((event, i) => i < 4)

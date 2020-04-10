@@ -6,9 +6,33 @@
   height: 80vh;
   margin-top: 13vh;
   overflow: scroll;
+animation: moveInLeft .3s ease-in
 }
 
 .event-list__title {
   text-align: center;
   width: 30vw;
+}
+.no-results {
+height: 100%;
+display: flex;
+align-items: center;
+color: #004ac7;
+font-size: 28px;
+animation: moveInLeft .3s ease-in
+
+}
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem);
+  }
+  80% {
+    transform: translateX(1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
