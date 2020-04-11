@@ -15,7 +15,6 @@ class EventList extends Component {
   // const indexOfFirstPost = indexOfLastPost - eventsPerPage;
 
   render() {
-    console.log("props foem here", this.props)
     const { currentPage, eventsPerPage } = this.state;
     const totalEvents = this.props.events.length;
     const lastEventIndex = currentPage * eventsPerPage;
@@ -32,7 +31,6 @@ class EventList extends Component {
       pageNumbers.push(i);
     }
     const { events } = this.props;
-    console.log(events);
     // {items
     //       .filter((item, idx) => idx < 4)
     //       .map(item => (

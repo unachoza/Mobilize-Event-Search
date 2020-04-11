@@ -8,7 +8,7 @@ const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events';
 class Form extends Component {
   state = {
     errorMessage: null,
-    zipQuery: '',
+    query: '',
     eventTypeQuery: [],
   };
 
@@ -23,6 +23,7 @@ class Form extends Component {
     event.preventDefault();
     console.log('wo' );
     // this.validateZipCode(this.state.query)
+   
     this.props.upDateRequestUrl(this.state.query);
   };
 
@@ -43,6 +44,7 @@ class Form extends Component {
       this.state.eventTypeQuery.length > 1
         ? this.state.eventTypeQuery.map((type) => '&event_types=' + type).join('')
         : '&event_types=' + this.state.eventTypeQuery;
+    console.log(this.state.query, 'and what is up with more', moreInputs)
     this.props.upDateRequestUrl(this.state.query, moreInputs);
     return moreInputs;
   };
@@ -63,7 +65,7 @@ class Form extends Component {
             onBlur={(e) => this.setState({ query: e.target.value })}
           />
           <button
-            type="submit"
+            // type="submit"
             onClick={zipcodeQuery}
             className="zipcode"
             style={{
