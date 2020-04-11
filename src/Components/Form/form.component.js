@@ -48,7 +48,6 @@ class Form extends Component {
       <div className="form-container">
         <form className="zip-input">
           <input
-            id="zip-input"
             className="zip-input"
             placeholder="enter zip code"
             type="text"

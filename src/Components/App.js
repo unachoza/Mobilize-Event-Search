@@ -3,12 +3,11 @@ import Map from 'Components/Map/map.component';
 import Form from 'Components/Form/form.component';
 import EventList from 'Components/EventList/eventList.component';
 import Header from 'Components/Header/header.component';
-import eventsFetch from 'API/MobilizeFetch';
+import {eventsFetch} from 'API/MobilizeFetch';
 import { EventsContext } from 'Context/Events/event.context';
 import 'Components/App.css';
 import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
-
-const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events?per_page=4';
+import { MOBILZE_BASE_URL } from 'Constants/constants';
 
 const App = () => {
   const [fetchedEvents, setFetchedEvents] = useState([]);
@@ -24,14 +23,13 @@ const App = () => {
     };
     getEvents();
   }, [requestURL]);
-  
+
   const upDateRequestUrl = (input, moreInputs = '') => {
-    console.log("update here", input, moreInputs)
+    console.log('update here', input, moreInputs);
     setRequestURL(MOBILZE_BASE_URL + '&zipcode=' + input + moreInputs);
   };
-  console.log(fetchedEvents);
-  
-  console.log('this is the loading status', loading);
+  console.log('data', fetchedEvents[0]);
+
   return (
     <div>
       <Header />

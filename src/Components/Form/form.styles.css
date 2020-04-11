@@ -12,17 +12,6 @@
   width: 60%;
   margin: 0px 10px;
 }
-#zip-input {
-  width: 45%;
-  position: relative;
-  text-align: center;
-  font-size: 18px;
-  height: 35px;
-  overflow: hidden;
-  border-radius: 10px;
-  border: none;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-}
 
 ::placeholder {
   color: #004ac7;

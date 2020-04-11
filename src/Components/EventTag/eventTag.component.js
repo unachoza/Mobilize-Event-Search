@@ -6,7 +6,7 @@ const EventTag = ({ tag }) => {
     switch (tag) {
       case 'CANVASS':
         return {
-          backgroundColor: 'red',
+          backgroundColor: '#FF8B32',
         };
       case 'PHONE_BANK':
         return {
@@ -14,11 +14,11 @@ const EventTag = ({ tag }) => {
         };
       case 'FUNDRAISER':
         return {
-          backgroundColor: 'red',
+          backgroundColor: 'green',
         };
       case 'VOTER_REG':
         return {
-          backgroundColor: 'green',
+          backgroundColor: '#DE0700',
         };
       case 'TRAINING':
         return {
@@ -34,7 +34,7 @@ const EventTag = ({ tag }) => {
         };
       case 'BARNSTORM':
         return {
-          backgroundColor: 'red',
+          backgroundColor: '#004ac7',
         };
       case 'SIGNATURE_GATHERING':
         return {
