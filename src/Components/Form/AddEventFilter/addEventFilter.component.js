@@ -12,7 +12,7 @@ const EVENT_TYPES = [
   'signature_gathering',
 ];
 
-const formatEventTypes = (event) => event.replace(new RegExp('_', 'g'), ' ').toLowerCase();
+const formatEventTypes = event => event.replace(new RegExp('_', 'g'), ' ').toLowerCase();
 
 const AddEventFilter = ({ handleChange, eventTypeQuery }) => (
   <form className="form" onSubmit={(label) => eventTypeQuery(label)}>

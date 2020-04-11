@@ -30,6 +30,7 @@ const App = () => {
     setRequestURL(MOBILZE_BASE_URL + '&zipcode=' + input + moreInputs);
   };
   console.log(fetchedEvents);
+  
   console.log('this is the loading status', loading);
   return (
     <div>
@@ -37,7 +38,6 @@ const App = () => {
       <div className="body">
         {!loading ? (
           <EventsContext.Provider value={fetchedEvents}>
-            
             <EventList events={fetchedEvents} loading={loading} />
             <div className="main-page">
               <Form upDateRequestUrl={upDateRequestUrl} />

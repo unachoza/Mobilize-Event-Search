@@ -4,19 +4,14 @@ import 'Components/Event/event.styles.css'
 
 const Event = (otherEventProps) => {
   const getDate = (unixTimestamp) => {
-    const milliseconds = unixTimestamp * 1000; // 1575909015000
-    const dateObject = new Date(milliseconds);
-    const DateFormat = dateObject.toLocaleString();
-    const humanDateFormat = DateFormat.replace(':00', '');
-    return humanDateFormat;
+    const dateObject = new Date(unixTimestamp * 1000).toLocaleString();
+    return dateObject.replace(':00', '');
   };
- 
-  
-  const { title, details, showDetails, eventDate, show, eventType } = otherEventProps;
+  const { title, details, showDetails, eventDate, eventType, id } = otherEventProps;
+  console.log(title, id, "here")
   return (
     <div className="event-card">
       <div className="event-card__date">{getDate(eventDate.start)} </div>
-      
       <div className="event-card__title" >
         {title.toUpperCase()}
       </div>
