@@ -6,23 +6,27 @@ import { render } from '@testing-library/react';
 
 class Event extends Component {
   state = {
-    yes: false,
+    displayDetails: false,
   };
 
   getDate = (unixTimestamp) => {
     const dateObject = new Date(unixTimestamp * 1000).toLocaleString();
     return dateObject.replace(':00', '');
+    
+    //how to get current events//
+    //when was it updated since, 
+    //reoccuring
+    //todays unix time stamp
+    
   };
    showEventDetails = () => {
      console.log(this.props[1].details)
-     this.setState(prevState => ({ yes: !prevState.yes }))
+     this.setState(prevState => ({ displayDetails: !prevState.displayDetails }))
      console.log(this.state)
     return <div className="event-card__description">{this.props[1].details}</div>
   }
   render() {
-    console.log(this.props[1]);
-    console.log(this.props);
-    const { title, details, showDetails, eventDate, eventType, id } = this.props[1];
+    const { title, details, eventDate, eventType, id } = this.props[1];
 
     return (
       <div className="event-card" onClick={() => this.showEventDetails()}>
@@ -30,7 +34,7 @@ class Event extends Component {
         <div className="event-card__title" onClick={() => this.showEventDetails()}>
           {title.toUpperCase()}
         </div>
- {this.state.yes ? <div className="event-card__description">{details}</div> : null} 
+ {this.state.displayDetails ? <div className="event-card__description">{details}</div> : null} 
         <EventTag tag={eventType} />
       </div>
     );

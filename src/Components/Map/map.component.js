@@ -2,61 +2,67 @@ import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import 'Components/Map/map.styles.css';
 import EventsContext from 'Context/Events/event.context';
-import { showEventDetails } from 'API/MobilizeFetch';
-import { useMapMarker } from 'Hooks/mapMarkers.hook';
+// import { useMapMarker } from 'Hooks/mapMarkers.hook';
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-// https://api.mobilize.us/v1/events?per_page=10&zipcode=11222
-// https://api.mobilize.us/v1/events/82193
 
 const EventMarker = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [highlightedEvent, setHighlightedEvent] = useState(null);
+
   useEffect(() => {
-    const showMarkerInfoBox = (event) => {
-      showEventDetails(event.id);
-      console.log('i was clickedc', event);
-      return event;
-    };
+    console.log(selectedMarker);
+    // setHighlightedEvent(!highlightedEvent);
+    // console.log(highlightedEvent);
+    return;
   }, [selectedMarker]);
+
+  const divStyle = {
+    background: `white`,
+    padding: 1,
+    color: 'blue',
+    alignBottom: true,
+    pane: 'mapPane',
+  };
 
   return (
     <EventsContext.Consumer>
-      {(fetchedEvents) =>
-        fetchedEvents.map((event, i) => {
-          return (
-            <div key={i}>
+      {(fetchedEvents) => {
+        return (
+          <div>
+            {fetchedEvents.map((event, i) => (
               <Marker
                 key={event.id}
-                // onClick={() => setSelectedMarker(event)}
-                // onClick={(e) => showEventDetails(event.id)}
-                onClick={() => console.log(setSelectedMarker(event.id))}
+                onClick={() => setSelectedMarker(event)}
                 markers={event.title}
                 position={{
                   lat: event.coordinates.lat,
                   lng: event.coordinates.lng,
                 }}
               />
-              {selectedMarker && (
-                <InfoWindow
-                  position={{
-                    lat: event.coordinates.lat,
-                    lng: event.coordinates.lng,
-                  }}
-                  onCloseClick={() => setSelectedMarker(null)}
-                >
-                  <div>
-                    <h2>{event.title}</h2>
-                  </div>
-                </InfoWindow>
-              )}
-            </div>
-          );
-        })
-      }
+            ))}
+            {selectedMarker && (
+              <InfoWindow
+                position={{
+                  lat: selectedMarker.coordinates.lat,
+                  lng: selectedMarker.coordinates.lng,
+                }}
+                onCloseClick={() => setSelectedMarker(null)}
+              >
+                <div style={divStyle}>
+                  <p>{selectedMarker.title}</p>
+                  <p>{selectedMarker.eventType}</p>
+                </div>
+              </InfoWindow>
+            )}
+          </div>
+        );
+      }}
     </EventsContext.Consumer>
   );
 };
 
-const Map = () => {
+const Map = (props) => {
+  console.log(props);
   return (
     <div className="map-container">
       <LoadScript id="script-loader" googleMapsApiKey={API_KEY}>
@@ -70,7 +76,7 @@ const Map = () => {
             border: 'none',
             boxShadow: '0 1rem 2rem rgba(0,0,0,.8)',
           }}
-          zoom={10.5}
+          zoom={7}
           center={{
             lat: 40.7282702,
             lng: -73.9506774,
@@ -85,34 +91,15 @@ const Map = () => {
 
 export default Map;
 
-{
-  /* <EventsContext.Consumer>
-            {(fetchedEvents) =>
-              fetchedEvents.map((event, i) => {
-                return (
-                  <div key={i}>
-                    <Marker
-                      key={event.id}
-                      onClick={() => setSelectedMarker(event)}
-                      // onClick={(e) => showEventDetails(event.id)}
-                      markers={event.title}
-                      position={{
-                        lat: event.coordinates.lat,
-                        lng: event.coordinates.lng,
-                      }}
-                    />
-                    {selectedMarker && (
-                      <InfoWindow
-                        position={{
-                          lat: event.coordinates.lat,
-                          lng: event.coordinates.lng,
-                        }}
-                        onCloseClick={() => setSelectedMarker(null)}
-                      ></InfoWindow>
-                    )}
-                  </div>
-                );
-              })
-            }
-          </EventsContext.Consumer> */
-}
+// let marker = new google.maps.Marker({
+
+//         animation: google.maps.Animation.DROP,
+//       });
+
+//     function toggleBounce() {
+//       if (marker.getAnimation() !== null) {
+//         marker.setAnimation(null);
+//       } else {
+//         marker.setAnimation(google.maps.Animation.BOUNCE);
+//       }
+//     }
