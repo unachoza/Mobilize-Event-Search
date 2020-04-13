@@ -6,7 +6,7 @@ import { render } from '@testing-library/react';
 
 class Event extends Component {
   state = {
-    yes: null,
+    yes: false,
   };
 
   getDate = (unixTimestamp) => {
@@ -15,7 +15,7 @@ class Event extends Component {
   };
    showEventDetails = () => {
      console.log(this.props[1].details)
-     this.setState({ yes: true })
+     this.setState(prevState => ({ yes: !prevState.yes }))
      console.log(this.state)
     return <div className="event-card__description">{this.props[1].details}</div>
   }

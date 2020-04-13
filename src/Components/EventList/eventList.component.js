@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Event from 'Components/Event/event.component';
 import 'Components/EventList/eventList.styles.css';
 import { useInfiniteScroll } from 'Hooks/infiniteScroll.hook';
 
 const EventList = ({ events }) => {
-  // const [eventCount, setEventCount] = useState(7)
-  // const infiniteScroll = useInfiniteScroll();
-  // setEventCount(infiniteScroll)
-  
-  // console.log('scrolling', eventCount)
+  const [eventCount, setEventCount] = useState(7);
+  // const { limit } = useInfiniteScroll(limit);
+  // setEventCount();
+
+  // console.log('scrolling', eventCount, limit);
 
   return (
     <div className="event-list-container">
@@ -18,10 +18,7 @@ const EventList = ({ events }) => {
         </div>
       ) : (
         Object.entries(events)
-         
-          .map(({ id, ...otherEventProps }) => (
-            <Event key={id} {...otherEventProps} />
-          ))
+        .map(({ id, ...otherEventProps }) => <Event key={id} {...otherEventProps} />)
       )}
     </div>
   );

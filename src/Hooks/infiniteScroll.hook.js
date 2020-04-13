@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const useInfiniteScroll = (start = 7, pace = 10) => {
   const [limit, setLimit] = useState(start);
