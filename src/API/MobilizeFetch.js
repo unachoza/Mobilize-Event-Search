@@ -29,27 +29,27 @@ export const useEventsFetch = ( appendValue,appendKey, pageNumber) => {
 
   useEffect(() => {
     setFetchedEvents([]);
-  }, []);
+  }, [appendValue]);
 
   useEffect(() => {
     const fetchingFromAPI = async () => { 
       setLoading(true);
       setError(false);
+      console.log(appendKey, appendValue)
 
       let cancel;
       try {
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
-        params.append(appendKey, appendValue)
-        console.log('the params', params)
+        (appendKey === 'zipcode') ? params.set(appendKey, appendValue) : console.log('differnt')
         const data = await axios({
           method: 'GET',
           url: MOBILZE_BASE_URL,
           params: params,
           cancelToken: new axios.CancelToken((c) => (cancel = c)),
         });
-        console.log(data)
+        console.log(data.data.data)
 
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
