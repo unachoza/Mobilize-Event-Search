@@ -4,11 +4,7 @@ import 'Components/EventList/eventList.styles.css';
 
 
 const EventList = ({ events }) => {
-  const [eventCount, setEventCount] = useState(7);
-  // const { limit } = useInfiniteScroll(limit);
-  // setEventCount();
 
-  // console.log('scrolling', eventCount, limit);
 console.log(events)
   return (
     <div className="event-list-container">

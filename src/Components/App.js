@@ -10,12 +10,13 @@ import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 import { MOBILZE_BASE_URL } from 'Constants/constants';
 
 const App = () => {
-  const [paramsAndQuery, setParamsAndQuery] = useState('');
-  const [pageNumber, setPageNumber] = useState(1);
-  const { loading, error, fetchedEvents, hasMore } = useEventsFetch(paramsAndQuery, pageNumber);
   
-  console.log(loading, error, fetchedEvents, hasMore)
-  console.log('also looking for', paramsAndQuery)
+  
+  const [zipCodeQuery, setZipCodeQuery] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+  const { loading, error, fetchedEvents, hasMore } = useEventsFetch(  zipCodeQuery, pageNumber);
+  
+  console.log('also looking for', zipCodeQuery)
 
   
   
@@ -31,9 +32,9 @@ const App = () => {
     if (node) observer.current.observe(node)
   }, [loading, hasMore])
 
-  const upDateRequestUrl = (input, moreInputs = '') => {
-    console.log('update here', input, moreInputs);
-    setParamsAndQuery(MOBILZE_BASE_URL + '&zipcode=' + input + moreInputs);
+  const upDateRequestUrl = (input) => {
+    console.log('update here', input, 'these are');
+    setZipCodeQuery(input );
   };
 
   return (

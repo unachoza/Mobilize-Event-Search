@@ -21,14 +21,7 @@ const normalizeEventData = (event) => ({
   eventImg: event.featured_image_url || null,
 });
 
-export const eventsFetch = async (requestURL) => {
-  console.log(requestURL,'here in olddddd onbe');
-  const response = await fetch(`${requestURL}`);
-  const data = await response.json();
-  return data.data.map((event) => normalizeEventData(event));
-};
-
-export const useEventsFetch = (paramsAndQuery="", pageNumber) => {
+export const useEventsFetch = (zipCodeQuery, pageNumber) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [fetchedEvents, setFetchedEvents] = useState([]);
@@ -40,22 +33,32 @@ export const useEventsFetch = (paramsAndQuery="", pageNumber) => {
 
   useEffect(() => {
     const fetchingFromAPI = async () => {
-      console.log('here in new onbe')
-      console.log('do I have my things, ', paramsAndQuery, pageNumber)
       setLoading(true);
       setError(false);
 
-      console.log(MOBILZE_BASE_URL)
+      let cancel;
       try {
-        let cancel;
+        //   console.log(params, requestURL);
+        //   const response = await fetch(`${requestURL}`);
+        //   const data = await response.json();
+        //   return data.data.map((event) => normalizeEventData(event));
+        // };
+        // let url = new URL(MOBILZE_BASE_URL)
+        const params = new URLSearchParams({
+        zipcode: 92130
+        });
+        let url = `${MOBILZE_BASE_URL},${params.toString()}`
+        console.log('this is it', url)
         const data = await axios({
-          method: 'GET',
+          method: "GET",
           url: MOBILZE_BASE_URL,
-          params: { paramsAndQuery },
+          params: params,
           cancelToken: new axios.CancelToken((c) => (cancel = c)),
         });
-        console.log(data.data.data)
-        console.log(data, 'is this differnet?')
+        console.log("first", data)
+        console.log(data.data.data[0]);
+
+        // return data.data.map((event) => normalizeEventData(event));
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
         });
@@ -65,10 +68,11 @@ export const useEventsFetch = (paramsAndQuery="", pageNumber) => {
         if (axios.isCancel(e)) return;
         setError(true);
       }
+      return () => cancel();
     };
 
     fetchingFromAPI();
-  }, [pageNumber, paramsAndQuery]);
+  }, []);
 
   return { loading, error, fetchedEvents, hasMore };
-}
+};
