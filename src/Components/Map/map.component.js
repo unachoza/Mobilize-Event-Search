@@ -10,9 +10,6 @@ const EventMarker = () => {
   const [highlightedEvent, setHighlightedEvent] = useState(null);
 
   useEffect(() => {
-    console.log(selectedMarker);
-    // setHighlightedEvent(!highlightedEvent);
-    // console.log(highlightedEvent);
     return;
   }, [selectedMarker]);
 
@@ -24,15 +21,21 @@ const EventMarker = () => {
     pane: 'mapPane',
   };
 
+  // const options = {
+  // animation: animate.DROP
+  // }
   return (
     <EventsContext.Consumer>
       {(fetchedEvents) => {
+        console.log(fetchedEvents);
         return (
           <div>
             {fetchedEvents.map((event, i) => (
               <Marker
                 key={event.id}
+                //  animation ={document.getElementById('circle-example').animation.DROP}
                 onClick={() => setSelectedMarker(event)}
+                // setAnimation={animation.DROP}
                 markers={event.title}
                 position={{
                   lat: event.coordinates.lat,
@@ -61,29 +64,46 @@ const EventMarker = () => {
   );
 };
 
-const Map = (props) => {
-  console.log(props);
+const Map = () => {
+  //   const options = {
+  //     streetViewControl: false,
+  //      Animation : DROP
+  // }
+  const locateMapCenter = (
+    fetchedEvents,
+    center = {
+      lat: 40.7282702,
+      lng: -73.9506774,
+    }
+  ) => {
+    if (fetchedEvents) {
+      center = fetchedEvents.find((event) => event.coordinates.lat)
+    }
+    return center.coordinates;
+  };
   return (
     <div className="map-container">
       <LoadScript id="script-loader" googleMapsApiKey={API_KEY}>
-        <GoogleMap
-          id="circle-example"
-          mapContainerStyle={{
-            height: '60vh',
-            width: '60vw',
-            overflow: 'hidden',
-            borderRadius: '20px',
-            border: 'none',
-            boxShadow: '0 1rem 2rem rgba(0,0,0,.8)',
-          }}
-          zoom={11}
-          center={{
-            lat: 40.7282702,
-            lng: -73.9506774,
-          }}
-        >
-          <EventMarker />
-        </GoogleMap>
+        <EventsContext.Consumer>
+          {(fetchedEvents) => (
+            <GoogleMap
+              id="circle-example"
+              mapContainerStyle={{
+                height: '60vh',
+                width: '60vw',
+                overflow: 'hidden',
+                borderRadius: '20px',
+                border: 'none',
+                boxShadow: '0 1rem 2rem rgba(0,0,0,.8)',
+              }}
+              zoom={12}
+              center={locateMapCenter(fetchedEvents)}
+              // animation={DROP}
+            >
+              <EventMarker />
+            </GoogleMap>
+          )}
+        </EventsContext.Consumer>
       </LoadScript>
     </div>
   );

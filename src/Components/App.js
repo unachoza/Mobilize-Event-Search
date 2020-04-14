@@ -3,11 +3,10 @@ import Map from 'Components/Map/map.component';
 import Form from 'Components/Form/form.component';
 import EventList from 'Components/EventList/eventList.component';
 import Header from 'Components/Header/header.component';
-import { eventsFetch, useEventsFetch } from 'API/MobilizeFetch';
+import { useEventsFetch } from 'API/MobilizeFetch';
 import { EventsContext } from 'Context/Events/event.context';
 import 'Components/App.css';
 import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
-import { MOBILZE_BASE_URL } from 'Constants/constants';
 
 const App = () => {
   const [appendKey, setAppendKey] = useState('');
@@ -15,28 +14,36 @@ const App = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const { loading, error, fetchedEvents, hasMore } = useEventsFetch(appendKey, appendValue, pageNumber);
 
-  console.log('also looking for', appendValue, appendKey);
-
   const observer = useRef();
+  console.log('observe', observer)
+  
   const lastEventElementRef = useCallback(
     (node) => {
+      console.log('i look for love', node)
       if (loading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+        console.log('visible', entries[0].isIntersecting)
+        }
         if (entries[0].isIntersecting && hasMore) {
           setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          console.log(pageNumber, hasMore);
         }
       });
       if (node) observer.current.observe(node);
     },
-    [loading, hasMore]
+    [loading, hasMore, pageNumber]
   );
+  
 
   const upDateRequestUrl = (param, input) => {
-    console.log('did this happen', input, param);
     setAppendKey(param);
     setAppendValue(input);
   };
+  
+
+  console.log(lastEventElementRef)
 
   return (
     <div>
@@ -44,7 +51,7 @@ const App = () => {
       <div className="body">
         {!loading ? (
           <EventsContext.Provider value={fetchedEvents}>
-            <EventList events={fetchedEvents} loading={loading} />
+            <EventList events={fetchedEvents} loading={loading} lastEventElementRef={lastEventElementRef} />
             <div className="main-page">
               <Form upDateRequestUrl={upDateRequestUrl} />
               <Map />
@@ -53,6 +60,7 @@ const App = () => {
         ) : (
           <LoadingSpinner loading={loading} />
         )}
+        <div>{error && 'Error'}</div>
       </div>
     </div>
   );

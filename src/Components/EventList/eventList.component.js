@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Event from 'Components/Event/event.component';
 import 'Components/EventList/eventList.styles.css';
+import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 
 
-const EventList = ({ events }) => {
+const EventList = ( { events, lastEventElementRef, loading }) => {
 
-console.log(events)
+console.log(lastEventElementRef)
   return (
     <div className="event-list-container">
       {!events.length > 0 ? (
@@ -16,11 +17,18 @@ console.log(events)
         
         (
         Object.entries(events)
-            .map(({ id, ...otherEventProps }) => <Event key={id} {...otherEventProps} />)
+            .map((event, i) => {
+              console.log(events.length === i + 1)
+              return (events.length === i + 1) ?
+                <div ref={lastEventElementRef} key={event.title}>{event.title}</div>
+                : <Event key={i} event={event} />
+            })
         )
       
       
       }
+      {loading && <LoadingSpinner loading={loading} />}
+       {/* <div>{error && 'Error'}</div> */}
     </div>
   );
 };

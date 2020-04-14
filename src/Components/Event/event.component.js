@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import EventTag from 'Components/EventTag/eventTag.component';
 import 'Components/Event/event.styles.css';
-import { render } from '@testing-library/react';
-// import { showEventDetails } from 'API/MobilizeFetch';
 
 class Event extends Component {
   state = {
@@ -20,13 +18,11 @@ class Event extends Component {
     
   };
    showEventDetails = () => {
-     console.log(this.props[1].details)
      this.setState(prevState => ({ displayDetails: !prevState.displayDetails }))
-     console.log(this.state)
     return <div className="event-card__description">{this.props[1].details}</div>
   }
   render() {
-    const { title, details, eventDate, eventType } = this.props[1];
+    const { title, details, eventDate, eventType } = this.props.event[1];
 
     return (
       <div className="event-card" onClick={() => this.showEventDetails()}>

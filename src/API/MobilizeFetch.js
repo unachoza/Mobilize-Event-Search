@@ -42,7 +42,7 @@ export const useEventsFetch = ( appendValue,appendKey, pageNumber) => {
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
-        (appendKey === 'zipcode') ? params.set(appendKey, appendValue) : console.log('differnt')
+       (appendKey === 'zipcode') ? params.set(appendKey, appendValue) : console.log('differnt')
         const data = await axios({
           method: 'GET',
           url: MOBILZE_BASE_URL,
@@ -64,7 +64,7 @@ export const useEventsFetch = ( appendValue,appendKey, pageNumber) => {
     };
 
     fetchingFromAPI();
-  }, [appendKey]);
+  }, [appendKey, appendValue]);
 
   return { loading, error, fetchedEvents, hasMore };
 };
