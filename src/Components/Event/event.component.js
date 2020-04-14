@@ -26,7 +26,7 @@ class Event extends Component {
     return <div className="event-card__description">{this.props[1].details}</div>
   }
   render() {
-    const { title, details, eventDate, eventType, id } = this.props[1];
+    const { title, details, eventDate, eventType } = this.props[1];
 
     return (
       <div className="event-card" onClick={() => this.showEventDetails()}>

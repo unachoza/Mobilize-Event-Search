@@ -10,36 +10,37 @@ import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 import { MOBILZE_BASE_URL } from 'Constants/constants';
 
 const App = () => {
-  
-  
-  const [zipCodeQuery, setZipCodeQuery] = useState('');
+  const [appendKey, setAppendKey] = useState('');
+  const [appendValue, setAppendValue] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
-  const { loading, error, fetchedEvents, hasMore } = useEventsFetch(  zipCodeQuery, pageNumber);
-  
-  console.log('also looking for', zipCodeQuery)
+  const { loading, error, fetchedEvents, hasMore } = useEventsFetch(appendKey, appendValue, pageNumber);
 
-  
-  
-  const observer = useRef()
-  const lastEventElementRef = useCallback(node => {
-    if (loading) return
-    if (observer.current) observer.current.disconnect()
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
-        setPageNumber(prevPageNumber => prevPageNumber + 1)
-      }
-    })
-    if (node) observer.current.observe(node)
-  }, [loading, hasMore])
+  console.log('also looking for', appendValue, appendKey);
 
-  const upDateRequestUrl = (input) => {
-    console.log('update here', input, 'these are');
-    setZipCodeQuery(input );
+  const observer = useRef();
+  const lastEventElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
+
+  const upDateRequestUrl = (param, input) => {
+    console.log('did this happen', input, param);
+    setAppendKey(param);
+    setAppendValue(input);
   };
 
   return (
     <div>
-      <Header />  
+      <Header />
       <div className="body">
         {!loading ? (
           <EventsContext.Provider value={fetchedEvents}>
@@ -58,11 +59,10 @@ const App = () => {
 };
 export default App;
 
-
 // useEffect(() => {
-  //   const getEvents = async () => {
-  //     const fetchedEvents = await eventsFetch(requestURL); //useEventsFetch
-  //   };
-  //   getEvents();
-  // }, [requestURL]);
-  // console.log(requestURL, fetchedEvents, loading)
+//   const getEvents = async () => {
+//     const fetchedEvents = await eventsFetch(requestURL); //useEventsFetch
+//   };
+//   getEvents();
+// }, [requestURL]);
+// console.log(requestURL, fetchedEvents, loading)

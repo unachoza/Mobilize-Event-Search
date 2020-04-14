@@ -16,7 +16,7 @@ console.log(events)
         
         (
         Object.entries(events)
-        .map(({ id, ...otherEventProps }) => <Event key={id} {...otherEventProps} />)
+            .map(({ id, ...otherEventProps }) => <Event key={id} {...otherEventProps} />)
         )
       
       

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { MOBILZE_BASE_URL } from 'Constants/constants';
+import { MOBILZE_BASE_URL, DEFAULT_ZIPCODE } from 'Constants/constants';
 
 const normalizeEventData = (event) => ({
   id: event.id,
@@ -21,7 +21,7 @@ const normalizeEventData = (event) => ({
   eventImg: event.featured_image_url || null,
 });
 
-export const useEventsFetch = (zipCodeQuery, pageNumber) => {
+export const useEventsFetch = ( appendValue,appendKey, pageNumber) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [fetchedEvents, setFetchedEvents] = useState([]);
@@ -32,37 +32,29 @@ export const useEventsFetch = (zipCodeQuery, pageNumber) => {
   }, []);
 
   useEffect(() => {
-    const fetchingFromAPI = async () => {
+    const fetchingFromAPI = async () => { 
       setLoading(true);
       setError(false);
 
       let cancel;
       try {
-        //   console.log(params, requestURL);
-        //   const response = await fetch(`${requestURL}`);
-        //   const data = await response.json();
-        //   return data.data.map((event) => normalizeEventData(event));
-        // };
-        // let url = new URL(MOBILZE_BASE_URL)
         const params = new URLSearchParams({
-        zipcode: 92130
+          zipcode: DEFAULT_ZIPCODE,
         });
-        let url = `${MOBILZE_BASE_URL},${params.toString()}`
-        console.log('this is it', url)
+        params.append(appendKey, appendValue)
+        console.log('the params', params)
         const data = await axios({
-          method: "GET",
+          method: 'GET',
           url: MOBILZE_BASE_URL,
           params: params,
           cancelToken: new axios.CancelToken((c) => (cancel = c)),
         });
-        console.log("first", data)
-        console.log(data.data.data[0]);
+        console.log(data)
 
-        // return data.data.map((event) => normalizeEventData(event));
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
         });
-        setHasMore(data.count > 0);
+        setHasMore(data.data.count > 0);
         setLoading(false);
       } catch (e) {
         if (axios.isCancel(e)) return;
@@ -72,7 +64,7 @@ export const useEventsFetch = (zipCodeQuery, pageNumber) => {
     };
 
     fetchingFromAPI();
-  }, []);
+  }, [appendKey]);
 
   return { loading, error, fetchedEvents, hasMore };
 };
