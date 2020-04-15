@@ -21,7 +21,7 @@ const normalizeEventData = (event) => ({
   eventImg: event.featured_image_url || null,
 });
 
-export const useEventsFetch = ( appendValue,appendKey, pageNumber) => {
+export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [fetchedEvents, setFetchedEvents] = useState([]);
@@ -32,24 +32,24 @@ export const useEventsFetch = ( appendValue,appendKey, pageNumber) => {
   }, [appendValue]);
 
   useEffect(() => {
-    const fetchingFromAPI = async () => { 
+    const fetchingFromAPI = async () => {
       setLoading(true);
       setError(false);
-      console.log(appendKey, appendValue)
+      console.log(appendKey, appendValue);
 
       let cancel;
       try {
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
-       (appendKey === 'zipcode') ? params.set(appendKey, appendValue) : console.log('differnt')
+        appendKey === 'zipcode' ? params.set(appendKey, appendValue) : console.log('differnt');
+        console.log('please tell me wht the params are!!!', params);
         const data = await axios({
           method: 'GET',
           url: MOBILZE_BASE_URL,
           params: params,
           cancelToken: new axios.CancelToken((c) => (cancel = c)),
         });
-        console.log(data.data.data)
 
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
@@ -64,7 +64,7 @@ export const useEventsFetch = ( appendValue,appendKey, pageNumber) => {
     };
 
     fetchingFromAPI();
-  }, [appendKey, appendValue]);
+  }, [appendKey, appendValue, pageNumber]);
 
   return { loading, error, fetchedEvents, hasMore };
 };

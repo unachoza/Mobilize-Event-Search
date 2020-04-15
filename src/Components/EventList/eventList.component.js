@@ -6,7 +6,6 @@ import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 
 const EventList = ( { events, lastEventElementRef, loading }) => {
 
-console.log(lastEventElementRef)
   return (
     <div className="event-list-container">
       {!events.length > 0 ? (
@@ -18,7 +17,7 @@ console.log(lastEventElementRef)
         (
         Object.entries(events)
             .map((event, i) => {
-              console.log(events.length === i + 1)
+            // events.length === i + 1 ? console.log('thisone', event, i) : console.log('other')
               return (events.length === i + 1) ?
                 <div ref={lastEventElementRef} key={event.title}>{event.title}</div>
                 : <Event key={i} event={event} />

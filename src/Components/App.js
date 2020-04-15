@@ -15,25 +15,21 @@ const App = () => {
   const { loading, error, fetchedEvents, hasMore } = useEventsFetch(appendKey, appendValue, pageNumber);
 
   const observer = useRef();
-  console.log('observe', observer)
   
   const lastEventElementRef = useCallback(
     (node) => {
-      console.log('i look for love', node)
       if (loading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-        console.log('visible', entries[0].isIntersecting)
         }
         if (entries[0].isIntersecting && hasMore) {
           setPageNumber((prevPageNumber) => prevPageNumber + 1);
-          console.log(pageNumber, hasMore);
         }
       });
       if (node) observer.current.observe(node);
     },
-    [loading, hasMore, pageNumber]
+    [loading, hasMore]
   );
   
 
@@ -42,9 +38,6 @@ const App = () => {
     setAppendValue(input);
   };
   
-
-  console.log(lastEventElementRef)
-
   return (
     <div>
       <Header />

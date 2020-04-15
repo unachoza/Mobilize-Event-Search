@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import EventTag from 'Components/EventTag/eventTag.component';
 import 'Components/Event/event.styles.css';
 
-class Event extends Component {
-  state = {
-    displayDetails: false,
-  };
+const Event = (props) => {
+  const [displayDetails, setDisplayDetails] = useState(false)
 
-  getDate = (unixTimestamp) => {
+  const getDate = (unixTimestamp) => {
     const dateObject = new Date(unixTimestamp * 1000).toLocaleString();
     return dateObject.replace(':00', '');
     
@@ -17,24 +15,19 @@ class Event extends Component {
     //todays unix time stamp
     
   };
-   showEventDetails = () => {
-     this.setState(prevState => ({ displayDetails: !prevState.displayDetails }))
-    return <div className="event-card__description">{this.props[1].details}</div>
-  }
-  render() {
-    const { title, details, eventDate, eventType } = this.props.event[1];
+ 
+    const { title, details, eventDate, eventType } = props.event[1];
 
     return (
-      <div className="event-card" onClick={() => this.showEventDetails()}>
-        <div className="event-card__date">{this.getDate(eventDate.start)} </div>
-        <div className="event-card__title" onClick={() => this.showEventDetails()}>
+      <div className="event-card" onClick={() => setDisplayDetails(prevState => !prevState.displayDetails)}>
+        <div className="event-card__date">{getDate(eventDate.start)} </div>
+        <div className="event-card__title" onClick={() => setDisplayDetails(prevState => !prevState.displayDetails)}>
           {title.toUpperCase()}
         </div>
- {this.state.displayDetails ? <div className="event-card__description">{details}</div> : null} 
+ {displayDetails ? <div className="event-card__description">{details}</div> : null} 
         <EventTag tag={eventType} />
       </div>
     );
-  }
 }
 
 export default Event;

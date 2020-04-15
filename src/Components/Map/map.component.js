@@ -30,19 +30,19 @@ const EventMarker = () => {
         console.log(fetchedEvents);
         return (
           <div>
-            {fetchedEvents.map((event, i) => (
-              <Marker
-                key={event.id}
-                //  animation ={document.getElementById('circle-example').animation.DROP}
-                onClick={() => setSelectedMarker(event)}
-                // setAnimation={animation.DROP}
-                markers={event.title}
-                position={{
-                  lat: event.coordinates.lat,
-                  lng: event.coordinates.lng,
-                }}
-              />
-            ))}
+            {/* {fetchedEvents.map((event, i) => ( */}
+            <Marker
+              key={fetchedEvents[1].id}
+              //  animation ={document.getElementById('circle-example').animation.DROP}
+              onClick={() => setSelectedMarker(fetchedEvents)}
+              // setAnimation={animation.DROP}
+              markers={fetchedEvents[1].title}
+              position={{
+                lat: fetchedEvents[1].coordinates.lat,
+                lng: fetchedEvents[1].coordinates.lng,
+              }}
+            />
+            {/* ))} */}
             {selectedMarker && (
               <InfoWindow
                 position={{
@@ -77,7 +77,7 @@ const Map = () => {
     }
   ) => {
     if (fetchedEvents) {
-      center = fetchedEvents.find((event) => event.coordinates.lat)
+      center = fetchedEvents.find((event) => event.coordinates.lat);
     }
     return center.coordinates;
   };
@@ -93,7 +93,7 @@ const Map = () => {
                 width: '60vw',
                 overflow: 'hidden',
                 borderRadius: '20px',
-                border: 'none',
+                border: 'solid #0d0a92 2px',
                 boxShadow: '0 1rem 2rem rgba(0,0,0,.8)',
               }}
               zoom={12}

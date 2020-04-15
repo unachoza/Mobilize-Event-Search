@@ -13,6 +13,7 @@ class Form extends Component {
   };
 
   zipcodeQuery = (event) => {
+    
     console.log(event.target.name)
     event.preventDefault();
     this.props.upDateRequestUrl(this.state.query, event.target.name);
