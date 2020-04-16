@@ -1,4 +1,5 @@
-export const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events?';
+export const DEFAULT_PER_PAGE = 'per_page=5'
+export const MOBILZE_BASE_URL = `https://api.mobilize.us/v1/events?${DEFAULT_PER_PAGE}`;
 export const DEFAULT_ZIPCODE = 10001
 
 

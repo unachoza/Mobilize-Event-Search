@@ -18,7 +18,6 @@ const Event = (props) => {
     setDisplayDetails(!displayDetails);
   };
   const { title, details, eventDate, eventType } = props.event[1];
-  console.log('re rendering', displayDetails);
   return (
     <div className="event-card" onClick={toggleDisplayDetails}>
       <div className="event-card__date">{getDate(eventDate.start)} </div>

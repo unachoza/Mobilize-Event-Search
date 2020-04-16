@@ -32,7 +32,7 @@ const EventMarker = () => {
           <div>
             {(fetchedEvents.filter((event) => event.coordinates.lat)).map((event, i) => (
               <Marker
-                key={event.id}
+                key={i}
                 //  animation ={document.getElementById('circle-example').animation.DROP}
                 onClick={() => setSelectedMarker(event)} // setAnimation={animation.DROP}
                 markers={event.title}

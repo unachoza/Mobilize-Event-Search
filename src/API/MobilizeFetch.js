@@ -26,6 +26,12 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
   const [error, setError] = useState(false);
   const [fetchedEvents, setFetchedEvents] = useState([]);
   const [hasMore, setHasMore] = useState(false);
+  const [nextPage, setNextPage] = useState(null);
+
+  useEffect(() => {
+    setNextPage(null);
+    console.log('reset ', nextPage)
+  }, [appendValue, appendKey]);
 
   useEffect(() => {
     setFetchedEvents([]);
@@ -42,19 +48,21 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
-        appendKey === 'zipcode' ? params.set(appendKey, appendValue) : console.log('differnt');
-        console.log('please tell me wht the params are!!!', params);
-        const data = await axios({
-          method: 'GET',
-          url: MOBILZE_BASE_URL,
-          params: params,
-          cancelToken: new axios.CancelToken((c) => (cancel = c)),
-        });
-
+        let data = null;
+        console.log(data, nextPage)
+        appendKey === 'zipcode' && params.set(appendKey, appendValue);
+        nextPage
+          ? (data = await axios.get(nextPage))
+          : (data = await axios.get(MOBILZE_BASE_URL, {
+              params: params,
+              cancelToken: new axios.CancelToken((c) => (cancel = c)),
+            }));
+        console.log(data);
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
         });
         setHasMore(data.data.count > 0);
+        setNextPage(data.data.next);
         setLoading(false);
       } catch (e) {
         if (axios.isCancel(e)) return;

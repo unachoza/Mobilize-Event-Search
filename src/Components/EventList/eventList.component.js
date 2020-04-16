@@ -5,7 +5,7 @@ import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 
 
 const EventList = ( { events, lastEventElementRef, loading }) => {
-
+console.log(events);
   return (
     <div className="event-list-container">
       {!events.length > 0 ? (
