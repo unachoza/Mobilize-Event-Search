@@ -30,19 +30,18 @@ const EventMarker = () => {
         console.log(fetchedEvents);
         return (
           <div>
-            {/* {fetchedEvents.map((event, i) => ( */}
-            <Marker
-              key={fetchedEvents[1].id}
-              //  animation ={document.getElementById('circle-example').animation.DROP}
-              onClick={() => setSelectedMarker(fetchedEvents)}
-              // setAnimation={animation.DROP}
-              markers={fetchedEvents[1].title}
-              position={{
-                lat: fetchedEvents[1].coordinates.lat,
-                lng: fetchedEvents[1].coordinates.lng,
-              }}
-            />
-            {/* ))} */}
+            {(fetchedEvents.filter((event) => event.coordinates.lat)).map((event, i) => (
+              <Marker
+                key={event.id}
+                //  animation ={document.getElementById('circle-example').animation.DROP}
+                onClick={() => setSelectedMarker(event)} // setAnimation={animation.DROP}
+                markers={event.title}
+                position={{
+                  lat: event.coordinates.lat,
+                  lng: event.coordinates.lng,
+                }}
+              />
+            ))}
             {selectedMarker && (
               <InfoWindow
                 position={{
