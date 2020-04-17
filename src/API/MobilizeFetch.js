@@ -29,28 +29,24 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
 const [nextPage, setNextPage] = useState(null);
 
   useEffect(() => {
-    setNextPage(null);
-    console.log('reset ', nextPage)
-  }, [appendValue, appendKey]);
-  
-  
-  useEffect(() => {
-    setFetchedEvents([]);
+    setNextPage('god');
+    // setFetchedEvents([]);
+    // console.log('reset ', nextPage, fetchedEvents)
   }, [appendValue]);
+
 
   useEffect(() => {
     const fetchingFromAPI = async () => {
       setLoading(true);
       setError(false);
-      console.log(appendKey, appendValue);
-
+      console.log(appendKey, appendValue, nextPage);
       let cancel;
+       let data = null;
       try {
-        const params = new URLSearchParams({
+   
+          const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
-        });
-         let data = null;
-        console.log(data, nextPage)
+        })   
         appendKey === 'zipcode' && params.set(appendKey, appendValue);
         console.log('see i true', nextPage)
         nextPage
@@ -60,11 +56,13 @@ const [nextPage, setNextPage] = useState(null);
               cancelToken: new axios.CancelToken((c) => (cancel = c)),
             }));
         console.log(data);
+        const normalizedData = data.data.data.map((event) => normalizeEventData(event))
         setFetchedEvents((prevEvents) => {
-          return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
+          return[...new Set([...prevEvents, ...normalizedData])];
         });
+        console.log("these are the set fetced events",fetchedEvents)
         setHasMore(data.data.count > 0);
-        
+        setNextPage(data.data.next)
         setLoading(false);
       } catch (e) {
         if (axios.isCancel(e)) return;
@@ -72,9 +70,7 @@ const [nextPage, setNextPage] = useState(null);
       }
       return () => cancel();
     };
-
     fetchingFromAPI();
   }, [appendKey, appendValue, pageNumber]);
-
   return { loading, error, fetchedEvents, hasMore };
 };
