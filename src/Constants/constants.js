@@ -1,5 +1,5 @@
 export const DEFAULT_PER_PAGE = 'per_page=10'
-export const DEFAULT_ZIPCODE = 10001
+export const DEFAULT_ZIPCODE = 11222
 export const EVENTS_IN_2020 = 1577836800
 export const MOBILZE_BASE_URL = `https://api.mobilize.us/v1/events?${DEFAULT_PER_PAGE}`
 

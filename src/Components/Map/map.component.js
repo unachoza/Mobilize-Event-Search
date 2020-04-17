@@ -23,7 +23,8 @@ const EventMarker = () => {
   return (
     <EventsContext.Consumer>
       {(fetchedEvents) => {
-        console.log(fetchedEvents);
+        console.log('from map component', fetchedEvents);
+        console.log((fetchedEvents.filter((event) => event.coordinates.lat)).length);
         return (
           <div>
             {(fetchedEvents.filter((event) => event.coordinates.lat)).map((event, i) => (
