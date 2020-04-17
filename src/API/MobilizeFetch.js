@@ -29,10 +29,10 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
 const [nextPage, setNextPage] = useState(null);
 
   useEffect(() => {
-    setNextPage(null);
-    setFetchedEvents([]);
-    console.log('reset ', nextPage, fetchedEvents)
-  }, [appendValue, appendKey]);
+    setNextPage('god');
+    // setFetchedEvents([]);
+    // console.log('reset ', nextPage, fetchedEvents)
+  }, [appendValue]);
 
 
   useEffect(() => {
@@ -51,15 +51,16 @@ const [nextPage, setNextPage] = useState(null);
         console.log('see i true', nextPage)
         nextPage
           ? (data = await axios.get(nextPage))
-          : data = await axios.get(MOBILZE_BASE_URL, {
+          : (data = await axios.get(MOBILZE_BASE_URL, {
               params: params,
               cancelToken: new axios.CancelToken((c) => (cancel = c)),
-            });
+            }));
         console.log(data);
         const normalizedData = data.data.data.map((event) => normalizeEventData(event))
         setFetchedEvents((prevEvents) => {
           return[...new Set([...prevEvents, ...normalizedData])];
         });
+        console.log("these are the set fetced events",fetchedEvents)
         setHasMore(data.data.count > 0);
         setNextPage(data.data.next)
         setLoading(false);
@@ -71,5 +72,5 @@ const [nextPage, setNextPage] = useState(null);
     };
     fetchingFromAPI();
   }, [appendKey, appendValue, pageNumber]);
-  return { loading, error, fetchedEvents, hasMore , nextPage};
+  return { loading, error, fetchedEvents, hasMore };
 };
