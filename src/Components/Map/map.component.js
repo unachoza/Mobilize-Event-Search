@@ -7,7 +7,6 @@ const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const EventMarker = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
-  const [highlightedEvent, setHighlightedEvent] = useState(null);
 
   useEffect(() => {
     return;
@@ -21,9 +20,6 @@ const EventMarker = () => {
     pane: 'mapPane',
   };
 
-  // const options = {
-  // animation: animate.DROP
-  // }
   return (
     <EventsContext.Consumer>
       {(fetchedEvents) => {
@@ -32,9 +28,8 @@ const EventMarker = () => {
           <div>
             {(fetchedEvents.filter((event) => event.coordinates.lat)).map((event, i) => (
               <Marker
-                key={event.id}
-                //  animation ={document.getElementById('circle-example').animation.DROP}
-                onClick={() => setSelectedMarker(event)} // setAnimation={animation.DROP}
+                key={i}
+                onClick={() => setSelectedMarker(event)} 
                 markers={event.title}
                 position={{
                   lat: event.coordinates.lat,
