@@ -30,8 +30,8 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
 
   useEffect(() => {
     setNextPage(null);
-    console.log('reset ', nextPage)
-  }, [appendValue, appendKey]);
+    console.log('reset ', nextPage);
+  }, [appendValue, appendKey, nextPage]);
 
   useEffect(() => {
     setFetchedEvents([]);
@@ -42,15 +42,15 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
       setLoading(true);
       setError(false);
       console.log(appendKey, appendValue);
-
+      let data = null;
       let cancel;
       try {
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
-        let data = null;
-        console.log(data, nextPage)
+        console.log(data, nextPage);
         appendKey === 'zipcode' && params.set(appendKey, appendValue);
+        console.log(params);
         nextPage
           ? (data = await axios.get(nextPage))
           : (data = await axios.get(MOBILZE_BASE_URL, {

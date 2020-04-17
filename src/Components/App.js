@@ -9,8 +9,8 @@ import 'Components/App.css';
 import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 
 const App = () => {
-  const [appendKey, setAppendKey] = useState('');
-  const [appendValue, setAppendValue] = useState('');
+  const [appendKey, setAppendKey] = useState(null);
+  const [appendValue, setAppendValue] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const { loading, error, fetchedEvents, hasMore } = useEventsFetch(appendKey, appendValue, pageNumber);
 
