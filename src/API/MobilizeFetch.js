@@ -21,22 +21,20 @@ const normalizeEventData = (event) => ({
   eventImg: event.featured_image_url || null,
 });
 
+
 export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [fetchedEvents, setFetchedEvents] = useState([]);
   const [hasMore, setHasMore] = useState(false);
-const [nextPage, setNextPage] = useState(null);
+  const [nextPage, setNextPage] = useState(null);
+  console.log("news stuff like now", appendValue)
 
   useEffect(() => {
     setNextPage(null);
-    console.log('reset ', nextPage)
-  }, [appendValue, appendKey]);
-  
-  
-  useEffect(() => {
     setFetchedEvents([]);
-  }, [appendValue]);
+    console.log('reset ', nextPage, fetchedEvents)
+  }, [appendValue, appendKey]);
 
   useEffect(() => {
     const fetchingFromAPI = async () => {
@@ -44,33 +42,32 @@ const [nextPage, setNextPage] = useState(null);
       setError(false);
       console.log(appendKey, appendValue);
 
-      let cancel;
       try {
+        let data 
+        if (pageNumber > 1) {
+          console.log('doin this')
+        data = await axios.get(nextPage)
+        } else {
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
-         let data = null;
-        console.log(data, nextPage)
         appendKey === 'zipcode' && params.set(appendKey, appendValue);
-        console.log('see i true', nextPage)
-        nextPage
-          ? (data = await axios.get(nextPage))
-          : (data = await axios.get(MOBILZE_BASE_URL, {
+        data = await axios.get(MOBILZE_BASE_URL, {
               params: params,
-              cancelToken: new axios.CancelToken((c) => (cancel = c)),
-            }));
+            })
+        }
+        
+          
         console.log(data);
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
         });
         setHasMore(data.data.count > 0);
-        
+        setNextPage(data.data.next)
         setLoading(false);
       } catch (e) {
-        if (axios.isCancel(e)) return;
         setError(true);
       }
-      return () => cancel();
     };
 
     fetchingFromAPI();
@@ -78,3 +75,7 @@ const [nextPage, setNextPage] = useState(null);
 
   return { loading, error, fetchedEvents, hasMore };
 };
+
+
+//**************************THIS DOESN'T WORK BUT IS SUPER SHOULD */
+  // const checkForNextPage = (nextPage, params) => nextPage ?  axios.get(nextPage) : axios.get(MOBILZE_BASE_URL, {params: params})
