@@ -36,6 +36,7 @@ const App = () => {
   const upDateRequestUrl = (param, input) => {
     setAppendKey(param);
     setAppendValue(input);
+    setPageNumber(0)
   };
   
   return (

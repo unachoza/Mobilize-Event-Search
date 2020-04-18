@@ -28,9 +28,8 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
   const [fetchedEvents, setFetchedEvents] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [nextPage, setNextPage] = useState(null);
-  console.log("news stuff like now", appendValue)
 
-  useEffect(() => {
+  useEffect((nextPage, fetchedEvents) => {
     setNextPage(null);
     setFetchedEvents([]);
     console.log('reset ', nextPage, fetchedEvents)
@@ -45,9 +44,10 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
       try {
         let data 
         if (pageNumber > 1) {
-          console.log('doin this')
+          console.log('pageNumber was recognized, should be using NEXT')
         data = await axios.get(nextPage)
         } else {
+          console.log('default URL')
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
@@ -58,7 +58,7 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
         }
         
           
-        console.log(data);
+        console.log(data.config.url);
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
         });
@@ -75,7 +75,5 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
 
   return { loading, error, fetchedEvents, hasMore };
 };
-
-
 //**************************THIS DOESN'T WORK BUT IS SUPER SHOULD */
   // const checkForNextPage = (nextPage, params) => nextPage ?  axios.get(nextPage) : axios.get(MOBILZE_BASE_URL, {params: params})
