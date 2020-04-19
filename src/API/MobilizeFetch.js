@@ -32,7 +32,6 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
   useEffect((nextPage, fetchedEvents) => {
     setNextPage(null);
     setFetchedEvents([]);
-    console.log('reset ', nextPage, fetchedEvents)
   }, [appendValue, appendKey]);
 
   useEffect(() => {
@@ -43,10 +42,8 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
       try {
         let data 
         if (pageNumber > 1) {
-          console.log('pageNumber was recognized, should be using NEXT')
         data = await axios.get(nextPage)
         } else {
-          console.log('default URL')
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
@@ -55,7 +52,6 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
               params: params,
             })
         }
-        
           
         console.log(data.config.url);
         setFetchedEvents((prevEvents) => {

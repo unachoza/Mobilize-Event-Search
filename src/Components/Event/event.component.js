@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import EventTag from 'Components/EventTag/eventTag.component';
+import EventTagFooter from 'Components/EventTag/eventTag.component';
 import 'Components/Event/event.styles.css';
 
 const Event = (props) => {
@@ -20,7 +20,7 @@ const Event = (props) => {
         {title.toUpperCase()}
       </div>
       {displayDetails ? <div className="event-card__description">{details}</div> : null}
-      <EventTag tag={eventType} />
+      <EventTagFooter eventTags={props.event[1]}  />
     </div>
   );
 };
