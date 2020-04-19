@@ -21,6 +21,7 @@ const normalizeEventData = (event) => ({
   eventImg: event.featured_image_url || null,
 });
 
+
 export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -28,47 +29,44 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
   const [hasMore, setHasMore] = useState(false);
   const [nextPage, setNextPage] = useState(null);
 
-  useEffect(() => {
+  useEffect((nextPage, fetchedEvents) => {
     setNextPage(null);
-    console.log('reset ', nextPage);
-  }, [appendValue, appendKey, nextPage]);
-
-  useEffect(() => {
     setFetchedEvents([]);
-  }, [appendValue]);
+    console.log('reset ', nextPage, fetchedEvents)
+  }, [appendValue, appendKey]);
 
   useEffect(() => {
     const fetchingFromAPI = async () => {
       setLoading(true);
       setError(false);
       console.log(appendKey, appendValue);
-      let data = null;
-      let cancel;
       try {
+        let data 
+        if (pageNumber > 1) {
+          console.log('pageNumber was recognized, should be using NEXT')
+        data = await axios.get(nextPage)
+        } else {
+          console.log('default URL')
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
-        console.log(data, nextPage);
         appendKey === 'zipcode' && params.set(appendKey, appendValue);
-        console.log(params);
-        nextPage
-          ? (data = await axios.get(nextPage))
-          : (data = await axios.get(MOBILZE_BASE_URL, {
+        data = await axios.get(MOBILZE_BASE_URL, {
               params: params,
-              cancelToken: new axios.CancelToken((c) => (cancel = c)),
-            }));
-        console.log(data);
+            })
+        }
+        
+          
+        console.log(data.config.url);
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
         });
         setHasMore(data.data.count > 0);
-        setNextPage(data.data.next);
+        setNextPage(data.data.next)
         setLoading(false);
       } catch (e) {
-        if (axios.isCancel(e)) return;
         setError(true);
       }
-      return () => cancel();
     };
 
     fetchingFromAPI();
@@ -76,3 +74,4 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
 
   return { loading, error, fetchedEvents, hasMore };
 };
+

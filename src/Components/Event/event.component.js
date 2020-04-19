@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import EventTag from 'Components/EventTag/eventTag.component';
 import 'Components/Event/event.styles.css';
 
@@ -8,11 +8,6 @@ const Event = (props) => {
   const getDate = (unixTimestamp) => {
     const dateObject = new Date(unixTimestamp * 1000).toLocaleString();
     return dateObject.replace(':00', '');
-
-    //how to get current events//
-    //when was it updated since,
-    //reoccuring
-    //todays unix time stamp
   };
   const toggleDisplayDetails = () => {
     setDisplayDetails(!displayDetails);
@@ -32,12 +27,3 @@ const Event = (props) => {
 
 export default Event;
 
-//  <div className="event-card" >
-//         <div className="event-card__date">{this.getDate(eventDate.start)} </div>
-//         <div className="event-card__title" >
-//           {title.toUpperCase()}
-//         </div>
-
-//         {/* {otherEventProps[1].showDetails ? <div className="event-card__description">{details}</div> : null} */}
-//         <EventTag tag={eventType} />
-//       </div>

@@ -13,9 +13,8 @@ const App = () => {
   const [appendValue, setAppendValue] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const { loading, error, fetchedEvents, hasMore } = useEventsFetch(appendKey, appendValue, pageNumber);
-
+console.log(loading, 'loading')
   const observer = useRef();
-  
   const lastEventElementRef = useCallback(
     (node) => {
       if (loading) return;
@@ -36,6 +35,7 @@ const App = () => {
   const upDateRequestUrl = (param, input) => {
     setAppendKey(param);
     setAppendValue(input);
+    setPageNumber(0)
   };
   
   return (
