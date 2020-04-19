@@ -75,5 +75,4 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
 
   return { loading, error, fetchedEvents, hasMore };
 };
-//**************************THIS DOESN'T WORK BUT IS SUPER SHOULD */
-  // const checkForNextPage = (nextPage, params) => nextPage ?  axios.get(nextPage) : axios.get(MOBILZE_BASE_URL, {params: params})
+

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import 'Components/Map/map.styles.css';
 import EventsContext from 'Context/Events/event.context';
-// import { useMapMarker } from 'Hooks/mapMarkers.hook';
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const EventMarker = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
 
   useEffect(() => {
+    console.log(selectedMarker)
     return;
   }, [selectedMarker]);
 
@@ -27,6 +27,7 @@ const EventMarker = () => {
         return (
           <div>
             {(fetchedEvents.filter((event) => event.coordinates.lat)).map((event, i) => (
+
               <Marker
                 key={i}
                 onClick={() => setSelectedMarker(event)} 
