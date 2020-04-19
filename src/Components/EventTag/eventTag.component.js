@@ -9,23 +9,23 @@ const EventTagFooter = ({ eventTags: { eventType, eventDate } }) => {
       return 'current';
     }
     else if ((eventDate.start >= 1577836800) && (eventDate.end_date < 1583020801)) {
-      return 'date_JAN_2020';
+      return 'JAN_2020';
     }
 
     else if (eventDate.start >= 1580515200 && eventDate.end_date < 1583020810) {
-      return 'date_FEB_2020';
+      return 'FEB_2020';
     }
 
     else if (eventDate.start >=  1583020800 && eventDate.end_date < 1585612800) {
-      return 'date_MAR_2020';
+      return 'MAR_2020';
     }
 
     else if (eventDate.start >= 1585699200 && eventDate.end_date < 1588204800) {
-      return 'date_APRIL_2020';
+      return 'APRIL_2020';
     }
 
     else if (eventDate.start >= 1588291200 && eventDate.end_date < 1590883200) {
-      return 'date_MAY_2020';
+      return 'MAY_2020';
     }
 
     else if (eventDate.start < 1577836800) {
@@ -33,13 +33,6 @@ const EventTagFooter = ({ eventTags: { eventType, eventDate } }) => {
     }
     return 'PASSED';
   }
-  console.log(eventDate.start >= 1588291200 && eventDate.end_date < 1590883200);
-  console.log(eventDate.start)
-   console.log(eventDate.end_date)
-  console.log(translateUnixToDateRange(eventDate));
-
-  // return (eventDate.start >= 1577836800) && (eventDate.end_date < 1580428800) ? eventDate = 'date_JAN_2020'
-
   const tagColor = (eventType) => {
     switch (eventType) {
       case 'CANVASS':
@@ -84,14 +77,16 @@ const EventTagFooter = ({ eventTags: { eventType, eventDate } }) => {
         };
     }
   };
-
+  const removeUnderscores = (input) => (
+input.replace(new RegExp('_', 'g'), ' ')
+)
   return (
     <div>
       <div className="tag" style={tagColor(eventType)}>
-        {eventType.replace(new RegExp('_', 'g'), ' ')}
+        {removeUnderscores(eventType)}
       </div>
       <div className="tag" style={{ backgroundColor: 'black' }}>
-        {translateUnixToDateRange(eventDate).replace(new RegExp('date_', 'g'), ' ')}
+        {removeUnderscores(translateUnixToDateRange(eventDate))}
       </div>
     </div>
   );
