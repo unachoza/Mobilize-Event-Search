@@ -13,7 +13,7 @@ const App = () => {
   const [appendValue, setAppendValue] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const { loading, error, fetchedEvents, hasMore } = useEventsFetch(appendKey, appendValue, pageNumber);
-console.log(loading, 'loading')
+
   const observer = useRef();
   const lastEventElementRef = useCallback(
     (node) => {
@@ -30,14 +30,15 @@ console.log(loading, 'loading')
     },
     [loading, hasMore]
   );
-  
 
   const upDateRequestUrl = (param, input) => {
     setAppendKey(param);
     setAppendValue(input);
-    setPageNumber(0)
+    setPageNumber(0);
+    console.log('param is this ', param, 'input skipped', input);
   };
-  
+  console.log('rerender')
+
   return (
     <div>
       <Header />
@@ -60,10 +61,5 @@ console.log(loading, 'loading')
 };
 export default App;
 
-// useEffect(() => {
-//   const getEvents = async () => {
-//     const fetchedEvents = await eventsFetch(requestURL); //useEventsFetch
-//   };
-//   getEvents();
-// }, [requestURL]);
-// console.log(requestURL, fetchedEvents, loading)
+// ********** EDGE CASES*******
+// 1. if one result map zoom don't work, so map won't render, same with eventList, need to make conditionals if fetchedEvents.lenght === 1

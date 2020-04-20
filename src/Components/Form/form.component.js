@@ -9,44 +9,49 @@ class Form extends Component {
   state = {
     errorMessage: null,
     query: '',
-    eventTypeQuery: [], 
+    eventTypeQuery: [],
   };
-
   zipcodeQuery = (event) => {
-    
-    console.log(event.target.name)
+    console.log(event.target.name);
     event.preventDefault();
     this.props.upDateRequestUrl(this.state.query, event.target.name);
   };
 
-  clearCheckboxesFromForm = () =>
+  clearCheckboxesFromForm = () => {
     document.querySelectorAll('input[type=checkbox]').forEach((el) => (el.checked = false));
+    console.log('clearing');
+  };
 
   eventTypeQuery = (event) => {
-    const { doneAddingEvents, clearCheckboxesFromForm, setState } = this;
+    console.log(this.state, 'in this func eventTypeQuesr');
     event.preventDefault();
-    this.props.upDateRequestUrl(this.state.query + doneAddingEvents());
-    clearCheckboxesFromForm();
-    setState({ eventTypeQuery: [] });
+    this.props.upDateRequestUrl(this.state.query + this.doneAddingEvents());
+    this.setState({ eventTypeQuery: [] });
+    this.clearCheckboxesFromForm();
+
+    console.log('batched probs not differnt', this.state);
   };
 
   handleChange = (event) => {
+    console.log('in handle change', this.state);
     const { value } = event.target;
     this.setState((prevState) => ({ eventTypeQuery: [...prevState.eventTypeQuery, value] }));
   };
 
-  doneAddingEvents = () => {
-    const moreInputs =
-      this.state.eventTypeQuery.length > 1
-        ? this.state.eventTypeQuery.map((type) => '&event_types=' + type).join('')
-        : '&event_types=' + this.state.eventTypeQuery;
-    console.log(this.state.query, 'and what is up with more', moreInputs);
-    this.props.upDateRequestUrl(this.state.query, moreInputs);
-    return moreInputs;
+  doneAddingEvents = (event) => {
+    event.preventDefault();
+    const param = 'event_type';
+    const input = this.state.eventTypeQuery;
+    this.props.upDateRequestUrl(param, input);
+  };
+
+  collectionEventTypeQueries = (label) => {
+    this.setState({ eventTypeQuery: [...this.state.eventTypeQuery, label.target.name] });
+    console.log(this.state);
   };
 
   render() {
-    const { handleChange, eventTypeQuery, zipcodeQuery } = this;
+    const { zipcodeQuery, handleChange, collectionEventTypeQueries, doneAddingEvents } = this;
     return (
       <div className="form-container">
         <form className="zip-input">
@@ -71,7 +76,7 @@ class Form extends Component {
             Search
           </button>
         </form>
-        <AddEventFilter handleChange={handleChange} eventTypeQuery={eventTypeQuery} />
+        <AddEventFilter handleChange={handleChange} collectionEventTypeQueries={collectionEventTypeQueries} doneAddingEvents={doneAddingEvents}/>
       </div>
     );
   }

@@ -4,12 +4,11 @@ import 'Components/EventList/eventList.styles.css';
 import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 
 
-const EventList = ({ events, lastEventElementRef, loading }) => {
-  // console.log('is it ever loading', loading)
-
+const EventList = ({ events, lastEventElementRef, loading, selectedMarker }) => {
+console.log('on event list', selectedMarker)
   return (
     <div className="event-list-container">
-      {!events.length > 0 ? (
+      {!events.length  ? (
         <div className="no-results">
           Oh dear!<br></br> Your search returned no events.
         </div>

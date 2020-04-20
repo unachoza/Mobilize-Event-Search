@@ -33,11 +33,12 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
     setNextPage(null);
     setFetchedEvents([]);
   }, [appendValue, appendKey]);
-
+console.log(appendValue, appendKey);
   useEffect(() => {
     const fetchingFromAPI = async () => {
       setLoading(true);
       setError(false);
+      const mobilizeUrl = new URL(MOBILZE_BASE_URL)
       console.log(appendKey, appendValue);
       try {
         let data 
@@ -47,13 +48,17 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
-        appendKey === 'zipcode' && params.set(appendKey, appendValue);
+          //need to loop throgh arrays of appending keys and values
+          
+          appendKey === 'zipcode' && params.set(appendKey, appendValue);
+          const mobilizeUrl = new URL(MOBILZE_BASE_URL)
+          data = await axios.get(MOBILZE_BASE_URL, {})
         data = await axios.get(MOBILZE_BASE_URL, {
               params: params,
             })
         }
           
-        console.log(data.config.url);
+        console.log(data.config);
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
         });

@@ -8,7 +8,6 @@ const EventMarker = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
 
   useEffect(() => {
-    console.log(selectedMarker)
     return;
   }, [selectedMarker]);
 
@@ -23,7 +22,7 @@ const EventMarker = () => {
   return (
     <EventsContext.Consumer>
       {(fetchedEvents) => {
-        console.log(fetchedEvents);
+        // console.log(fetchedEvents);
         return (
           <div>
             {(fetchedEvents.filter((event) => event.coordinates.lat)).map((event, i) => (

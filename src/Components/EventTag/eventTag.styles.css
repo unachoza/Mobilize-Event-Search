@@ -11,3 +11,8 @@
   display: flex;
   justify-content: center;
 }
+.tag-footer{
+display: flex;
+justify-content: space-between;
+margin-right: 10px
+}

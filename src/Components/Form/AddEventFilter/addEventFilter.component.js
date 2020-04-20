@@ -12,20 +12,33 @@ const EVENT_TYPES = [
   'signature_gathering',
 ];
 
-const formatEventTypes = event => event.replace(new RegExp('_', 'g'), ' ').toLowerCase();
+const formatEventTypes = (event) => event.replace(new RegExp('_', 'g'), ' ').toLowerCase();
 
-const AddEventFilter = ({ handleChange, eventTypeQuery }) => (
-  <form className="form" onSubmit={(label) => eventTypeQuery(label)}>
-    {EVENT_TYPES.map((event, i) => (
-      <div key={i} className="event-type-option">
-        <input type="checkbox" id={event} name={event} value={event} hidden onClick={handleChange} />
-        <label for={event} value={event}>
-          {formatEventTypes(event)}
-        </label>
-      </div>
-    ))}
-    <input type="submit" value="submit" />
-  </form>
-);
+const AddEventFilter = ({ handleChange, collectionEventTypeQueries, doneAddingEvents }) => {
+  return (
+    <div>
+      <form>
+      {EVENT_TYPES.map((event, i) => (
+        <div key={i} className="event-type-option">
+          <input
+            type="checkbox"
+            id={event}
+            name={event}
+            value={event}
+            hidden
+            onClick={(label) => collectionEventTypeQueries(label)}
+          />
+          <label for={event} value={event}>
+            {formatEventTypes(event)}
+          </label>
+        </div>
+      ))}
+      <button cancelable="true" onClick={(event) => doneAddingEvents(event)}>
+          submit
+      </button>
+        </form>
+    </div>
+  );
+};
 
 export default AddEventFilter;
