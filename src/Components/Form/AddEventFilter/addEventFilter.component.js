@@ -33,7 +33,7 @@ const AddEventFilter = ({ handleChange, eventTypeQuery,collectionEventTypeQuerie
           </label>
         </div>
       ))}
-      <button cancelable="true" onClick={(event) => eventTypeQuery(event)}>
+      <button cancelable="true" onClick={(event) => doneAddingEvents(event)}>
           submit
       </button>
         </form>

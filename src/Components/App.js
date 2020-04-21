@@ -43,12 +43,12 @@ const App = () => {
   // };
   
   const oldUpdateRequestUrl = (input, moreInputs = "") => {
+    
     setRequestUrl(MOBILZE_BASE_URL + '&zipcode=' + input + moreInputs)
      setPageNumber(1);
-    console.log('in old func', input)
+    console.log('updating the request url', input, 'and', moreInputs)
     
   }
-  
   
   return (
     <div>
