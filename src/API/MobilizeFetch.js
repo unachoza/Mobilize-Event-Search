@@ -22,7 +22,7 @@ const normalizeEventData = (event) => ({
 });
 
 
-export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
+export const useEventsFetch = ( pageNumber, requestUrl) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [fetchedEvents, setFetchedEvents] = useState([]);
@@ -30,37 +30,38 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
   const [nextPage, setNextPage] = useState(null);
 
   useEffect((nextPage, fetchedEvents) => {
+    console.log('works clear', requestUrl)
     setNextPage(null);
     setFetchedEvents([]);
-  }, [appendValue, appendKey]);
-console.log(appendValue, appendKey);
+    
+  }, [requestUrl]);
+  
   useEffect(() => {
     const fetchingFromAPI = async () => {
+      console.log(requestUrl, pageNumber,  "in api")
       setLoading(true);
       setError(false);
-      const mobilizeUrl = new URL(MOBILZE_BASE_URL)
-      console.log(appendKey, appendValue);
       try {
         let data 
+        // debugger
         if (pageNumber > 1) {
         data = await axios.get(nextPage)
+        } else if (requestUrl) {
+        data = await axios.get(requestUrl)
         } else {
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
           //need to loop throgh arrays of appending keys and values
           
-          appendKey === 'zipcode' && params.set(appendKey, appendValue);
-          const mobilizeUrl = new URL(MOBILZE_BASE_URL)
-          data = await axios.get(MOBILZE_BASE_URL, {})
+          // data = await axios.get(MOBILZE_BASE_URL, {})
         data = await axios.get(MOBILZE_BASE_URL, {
               params: params,
             })
         }
-          
-        console.log(data.config);
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
+          
         });
         setHasMore(data.data.count > 0);
         setNextPage(data.data.next)
@@ -71,7 +72,7 @@ console.log(appendValue, appendKey);
     };
 
     fetchingFromAPI();
-  }, [appendKey, appendValue, pageNumber]);
+  }, [ pageNumber, requestUrl]);
 
   return { loading, error, fetchedEvents, hasMore };
 };

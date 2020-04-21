@@ -25,18 +25,19 @@ const EventMarker = () => {
         // console.log(fetchedEvents);
         return (
           <div>
-            {(fetchedEvents.filter((event) => event.coordinates.lat)).map((event, i) => (
-
-              <Marker
-                key={i}
-                onClick={() => setSelectedMarker(event)} 
-                markers={event.title}
-                position={{
-                  lat: event.coordinates.lat,
-                  lng: event.coordinates.lng,
-                }}
-              />
-            ))}
+            {fetchedEvents
+              .filter((event) => event.coordinates.lat)
+              .map((event, i) => (
+                <Marker
+                  key={i}
+                  onClick={() => setSelectedMarker(event)}
+                  markers={event.title}
+                  position={{
+                    lat: event.coordinates.lat,
+                    lng: event.coordinates.lng,
+                  }}
+                />
+              ))}
             {selectedMarker && (
               <InfoWindow
                 position={{
@@ -90,8 +91,12 @@ const Map = () => {
                 border: 'solid #0d0a92 2px',
                 boxShadow: '0 1rem 2rem rgba(0,0,0,.8)',
               }}
-              zoom={12}
-              center={locateMapCenter(fetchedEvents)}
+              zoom={11}
+              center={{
+                lat: 40.7128,
+                lng: -74.00,
+              }}
+              // center={locateMapCenter(fetchedEvents)}
               // animation={DROP}
             >
               <EventMarker />

@@ -14,10 +14,10 @@ const EVENT_TYPES = [
 
 const formatEventTypes = (event) => event.replace(new RegExp('_', 'g'), ' ').toLowerCase();
 
-const AddEventFilter = ({ handleChange, collectionEventTypeQueries, doneAddingEvents }) => {
+const AddEventFilter = ({ handleChange, eventTypeQuery,collectionEventTypeQueries, doneAddingEvents }) => {
   return (
     <div>
-      <form>
+      <form className="form">
       {EVENT_TYPES.map((event, i) => (
         <div key={i} className="event-type-option">
           <input
@@ -26,14 +26,14 @@ const AddEventFilter = ({ handleChange, collectionEventTypeQueries, doneAddingEv
             name={event}
             value={event}
             hidden
-            onClick={(label) => collectionEventTypeQueries(label)}
+            onClick={handleChange}
           />
           <label for={event} value={event}>
             {formatEventTypes(event)}
           </label>
         </div>
       ))}
-      <button cancelable="true" onClick={(event) => doneAddingEvents(event)}>
+      <button cancelable="true" onClick={(event) => eventTypeQuery(event)}>
           submit
       </button>
         </form>

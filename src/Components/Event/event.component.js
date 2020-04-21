@@ -15,7 +15,7 @@ const Event = (props) => {
   const { title, details, eventDate, eventType } = props.event[1];
   return (
     <div className="event-card" onClick={toggleDisplayDetails}>
-      <div className="event-card__date">{getDate(eventDate.start)} </div>
+      <div className="event-card__date">{getDate(eventDate.start)} <span style={{color:'green', float: 'right', marginRight: '30px'}}>{props.event[0]}</span></div>
       <div className="event-card__title" onClick={toggleDisplayDetails}>
         {title.toUpperCase()}
       </div>

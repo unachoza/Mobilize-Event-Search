@@ -7,13 +7,18 @@ import { useEventsFetch } from 'API/MobilizeFetch';
 import { EventsContext } from 'Context/Events/event.context';
 import 'Components/App.css';
 import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
+import { MOBILZE_BASE_URL, DEFAULT_ZIPCODE } from 'Constants/constants';
 
 const App = () => {
   const [appendKey, setAppendKey] = useState(null);
   const [appendValue, setAppendValue] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const { loading, error, fetchedEvents, hasMore } = useEventsFetch(appendKey, appendValue, pageNumber);
+  const [requestUrl, setRequestUrl] = useState(null)
+  
+  
+  const { loading, error, fetchedEvents, hasMore } = useEventsFetch( pageNumber, requestUrl);
 
+  //infinite scroll
   const observer = useRef();
   const lastEventElementRef = useCallback(
     (node) => {
@@ -31,14 +36,20 @@ const App = () => {
     [loading, hasMore]
   );
 
-  const upDateRequestUrl = (param, input) => {
-    setAppendKey(param);
-    setAppendValue(input);
-    setPageNumber(0);
-    console.log('param is this ', param, 'input skipped', input);
-  };
-  console.log('rerender')
-
+  // const upDateRequestUrl = (param, input) => {
+  
+  //   setPageNumber(0);
+  //   console.log('param is this ', param, 'input skipped', input);
+  // };
+  
+  const oldUpdateRequestUrl = (input, moreInputs = "") => {
+    setRequestUrl(MOBILZE_BASE_URL + '&zipcode=' + input + moreInputs)
+     setPageNumber(1);
+    console.log('in old func', input)
+    
+  }
+  
+  
   return (
     <div>
       <Header />
@@ -47,7 +58,7 @@ const App = () => {
           <EventsContext.Provider value={fetchedEvents}>
             <EventList events={fetchedEvents} loading={loading} lastEventElementRef={lastEventElementRef} />
             <div className="main-page">
-              <Form upDateRequestUrl={upDateRequestUrl} />
+              <Form oldUpdateRequestUrl={oldUpdateRequestUrl}/>
               <Map />
             </div>
           </EventsContext.Provider>

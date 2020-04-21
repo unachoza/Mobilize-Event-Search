@@ -5,7 +5,7 @@ import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 
 
 const EventList = ({ events, lastEventElementRef, loading, selectedMarker }) => {
-console.log('on event list', selectedMarker)
+  console.log(events)
   return (
     <div className="event-list-container">
       {!events.length  ? (
