@@ -1,16 +1,24 @@
+.zipcode {
+  height: '37px';
+  position: 'absolute';
+  boxshadow: '0px 2px 5px rgba(0, 0, 0, 0.2)';
+  fontweight: '450';
+}
+
 .form {
-  display: flex;
-  width: 60vw;
-  flex-wrap: wrap;
-  margin: 5px;
+     display: flex;
+    width: 40vw;
+    flex-wrap: wrap;
+    margin: 0px auto;
 }
 
 .event-type-option {
   /* display: none; */
 }
 .zip-input {
+  display: flex;
   width: 60%;
-  margin: 0px 10px;
+  margin: 0px auto;
 }
 
 ::placeholder {
