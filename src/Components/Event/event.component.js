@@ -3,6 +3,7 @@ import EventTagFooter from 'Components/EventTag/eventTag.component';
 import 'Components/Event/event.styles.css';
 
 const Event = (props) => {
+
   const [displayDetails, setDisplayDetails] = useState(false);
 
   const getDate = (unixTimestamp) => {
@@ -15,7 +16,7 @@ const Event = (props) => {
   const { title, details, eventDate, eventType } = props.event[1];
   return (
     <div className="event-card" onClick={toggleDisplayDetails}>
-      <div className="event-card__date">{getDate(eventDate.start)} </div>
+      <div className="event-card__date">{getDate(eventDate.start)}<span>{}</span></div>
       <div className="event-card__title" onClick={toggleDisplayDetails}>
         {title.toUpperCase()}
       </div>

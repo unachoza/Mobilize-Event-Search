@@ -14,6 +14,8 @@ const App = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const { loading, error, fetchedEvents, hasMore } = useEventsFetch(appendKey, appendValue, pageNumber);
 
+  
+  //infinite scroll
   const observer = useRef();
   const lastEventElementRef = useCallback(
     (node) => {
@@ -21,11 +23,15 @@ const App = () => {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
+          console.log('visible')
         }
         if (entries[0].isIntersecting && hasMore) {
+          console.log(pageNumber)
           setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          console.log(pageNumber, 'what here')
         }
       });
+      console.log("wat is this on app", observer.current)
       if (node) observer.current.observe(node);
     },
     [loading, hasMore]
@@ -37,6 +43,8 @@ const App = () => {
     setPageNumber(0);
     console.log('param is this ', param, 'input skipped', input);
   };
+  
+  //trying to cut down on rerenders, dang that is a lot of rerenders 
   console.log('rerender')
 
   return (

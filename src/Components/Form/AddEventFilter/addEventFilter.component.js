@@ -17,7 +17,7 @@ const formatEventTypes = (event) => event.replace(new RegExp('_', 'g'), ' ').toL
 const AddEventFilter = ({ handleChange, collectionEventTypeQueries, doneAddingEvents }) => {
   return (
     <div>
-      <form>
+      <form className="form">
       {EVENT_TYPES.map((event, i) => (
         <div key={i} className="event-type-option">
           <input

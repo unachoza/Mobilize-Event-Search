@@ -22,7 +22,7 @@ const normalizeEventData = (event) => ({
 });
 
 
-export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
+export const useEventsFetch = (appendValue,  pageNumber) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [fetchedEvents, setFetchedEvents] = useState([]);
@@ -32,33 +32,23 @@ export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
   useEffect((nextPage, fetchedEvents) => {
     setNextPage(null);
     setFetchedEvents([]);
-  }, [appendValue, appendKey]);
-console.log(appendValue, appendKey);
+  }, [appendValue]);
   useEffect(() => {
     const fetchingFromAPI = async () => {
       setLoading(true);
       setError(false);
-      const mobilizeUrl = new URL(MOBILZE_BASE_URL)
-      console.log(appendKey, appendValue);
+     
       try {
         let data 
         if (pageNumber > 1) {
         data = await axios.get(nextPage)
+        } else if (appendValue) {
+          console.log(appendValue)
+          data = await axios.get(`${MOBILZE_BASE_URL}&zipcode=${appendValue}`)
         } else {
-        const params = new URLSearchParams({
-          zipcode: DEFAULT_ZIPCODE,
-        });
-          //need to loop throgh arrays of appending keys and values
-          
-          appendKey === 'zipcode' && params.set(appendKey, appendValue);
-          const mobilizeUrl = new URL(MOBILZE_BASE_URL)
-          data = await axios.get(MOBILZE_BASE_URL, {})
-        data = await axios.get(MOBILZE_BASE_URL, {
-              params: params,
-            })
+        data = await axios.get(`${MOBILZE_BASE_URL}&zipcode=${DEFAULT_ZIPCODE}`)
         }
           
-        console.log(data.config);
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
         });
@@ -66,12 +56,12 @@ console.log(appendValue, appendKey);
         setNextPage(data.data.next)
         setLoading(false);
       } catch (e) {
-        setError(true);
+        setError(true, e.message);
       }
     };
-
+console.log(hasMore)
     fetchingFromAPI();
-  }, [appendKey, appendValue, pageNumber]);
+  }, [appendValue, pageNumber]);
 
   return { loading, error, fetchedEvents, hasMore };
 };
