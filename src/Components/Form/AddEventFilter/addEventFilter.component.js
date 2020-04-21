@@ -16,8 +16,7 @@ const formatEventTypes = (event) => event.replace(new RegExp('_', 'g'), ' ').toL
 
 const AddEventFilter = ({ handleChange, collectionEventTypeQueries, doneAddingEvents }) => {
   return (
-    <div>
-      <form>
+    <form className="form">
       {EVENT_TYPES.map((event, i) => (
         <div key={i} className="event-type-option">
           <input
@@ -34,10 +33,9 @@ const AddEventFilter = ({ handleChange, collectionEventTypeQueries, doneAddingEv
         </div>
       ))}
       <button cancelable="true" onClick={(event) => doneAddingEvents(event)}>
-          submit
+        submit
       </button>
-        </form>
-    </div>
+    </form>
   );
 };
 

@@ -21,58 +21,76 @@ const normalizeEventData = (event) => ({
   eventImg: event.featured_image_url || null,
 });
 
-
 export const useEventsFetch = (appendValue, appendKey, pageNumber) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [fetchedEvents, setFetchedEvents] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [nextPage, setNextPage] = useState(null);
+  console.log('loading', appendKey);
 
-  useEffect((nextPage, fetchedEvents) => {
-    setNextPage(null);
-    setFetchedEvents([]);
-  }, [appendValue, appendKey]);
-console.log(appendValue, appendKey);
+  useEffect(
+    (nextPage, fetchedEvents) => {
+      setNextPage(null);
+      setFetchedEvents([]);
+    },
+    [appendValue, appendKey ]
+  );
+  
+  console.log(appendValue, appendKey);
   useEffect(() => {
     const fetchingFromAPI = async () => {
       setLoading(true);
       setError(false);
-      const mobilizeUrl = new URL(MOBILZE_BASE_URL)
-      console.log(appendKey, appendValue);
+      // const mobilizeUrl = new URL(MOBILZE_BASE_URL)
+      console.log(typeof appendValue);
       try {
-        let data 
+        let data;
+          const params = new URLSearchParams({
+            zipcode: DEFAULT_ZIPCODE,
+          });
+        debugger
+        // if (appendValue === 'event_type') {
+         
+        //      params.append( appendValue, appendKey);
+        //   data = await axios.get(MOBILZE_BASE_URL, {
+        //     params: params,
+        //   });
+        //   console.log(data)
+        // } else 
         if (pageNumber > 1) {
-        data = await axios.get(nextPage)
+          data = await axios.get(nextPage);
         } else {
-        const params = new URLSearchParams({
-          zipcode: DEFAULT_ZIPCODE,
-        });
-          //need to loop throgh arrays of appending keys and values
-          
           appendKey === 'zipcode' && params.set(appendKey, appendValue);
-          const mobilizeUrl = new URL(MOBILZE_BASE_URL)
-          data = await axios.get(MOBILZE_BASE_URL, {})
-        data = await axios.get(MOBILZE_BASE_URL, {
-              params: params,
-            })
+          data = await axios.get(MOBILZE_BASE_URL, {
+            params: params,
+          });
         }
-          
-        console.log(data.config);
+
+        //need to loop throgh arrays of appending keys and values
+        //  appendKey !== 'zipcode' &&
+        //    appendValue.forEach(value => params.set(appendKey, value))
+
+        // appendKey === 'zipcode' && params.set(appendKey, appendValue);
+        // const mobilizeUrl = new URL(MOBILZE_BASE_URL)
+        // data = await axios.get(MOBILZE_BASE_URL, {})
+
+        console.log(data);
+
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
         });
         setHasMore(data.data.count > 0);
-        setNextPage(data.data.next)
+        setNextPage(data.data.next);
         setLoading(false);
       } catch (e) {
         setError(true);
       }
     };
+   console.log(fetchedEvents)
 
     fetchingFromAPI();
-  }, [appendKey, appendValue, pageNumber]);
+  }, [appendKey, appendValue, nextPage, pageNumber]);
 
   return { loading, error, fetchedEvents, hasMore };
 };
-

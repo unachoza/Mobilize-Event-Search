@@ -13,7 +13,11 @@ const App = () => {
   const [appendValue, setAppendValue] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const { loading, error, fetchedEvents, hasMore } = useEventsFetch(appendKey, appendValue, pageNumber);
-
+  
+  //this never works 
+  error && console.log(error, 'working') 
+  
+  //for infinite scroll
   const observer = useRef();
   const lastEventElementRef = useCallback(
     (node) => {
@@ -37,8 +41,11 @@ const App = () => {
     setPageNumber(0);
     console.log('param is this ', param, 'input skipped', input);
   };
-  console.log('rerender')
 
+  
+  //trying to cut down on re renders, woah, way too many
+  console.log('rerender', loading, 'or error', error)
+  
   return (
     <div>
       <Header />
@@ -54,7 +61,6 @@ const App = () => {
         ) : (
           <LoadingSpinner loading={loading} />
         )}
-        <div>{error && 'Error'}</div>
       </div>
     </div>
   );
