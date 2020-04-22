@@ -7,11 +7,6 @@ const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const EventMarker = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
 
-  useEffect(() => {
-    console.log(selectedMarker);
-    return;
-  }, [selectedMarker]);
-
   const divStyle = {
     background: `white`,
     color: '#004ac7',
@@ -25,14 +20,14 @@ const EventMarker = () => {
 
   return (
     <EventsContext.Consumer>
-      {(fetchedEvents) => {
-        return (
+      {(fetchedEvents) => (
           <div>
             {fetchedEvents
               .filter((event) => event.coordinates.lat)
               .map((event, i) => (
                 <Marker
                   key={i}
+                  defaultAnimation={Animation.bounce}
                   onClick={() => setSelectedMarker(event)}
                   markers={event.title}
                   position={{
@@ -51,15 +46,22 @@ const EventMarker = () => {
               >
                 <div style={divStyle}>
                   <p>
-                    <a href={selectedMarker.link} target="_blank" rel="noopener noreferrer" style={{textDecoration: 'none', color: '#004ac7' }}>{selectedMarker.title}</a>
+                    <a
+                      href={selectedMarker.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: 'none', color: '#004ac7' }}
+                    >
+                      {selectedMarker.title}
+                    </a>
                   </p>
                   <p>{selectedMarker.eventType}</p>
                 </div>
               </InfoWindow>
             )}
           </div>
-        );
-      }}
+        )
+      }
     </EventsContext.Consumer>
   );
 };
@@ -72,9 +74,7 @@ const Map = () => {
       lng: -73.9506774,
     }
   ) => {
-    if (fetchedEvents) {
-      center = fetchedEvents.find((event) => event.coordinates.lat);
-    }
+    if (fetchedEvents) center = fetchedEvents.find((event) => event.coordinates.lat);
     return center.coordinates;
   };
   return (
@@ -92,9 +92,8 @@ const Map = () => {
                 border: 'solid #0d0a92 2px',
                 boxShadow: '0 1rem 2rem rgba(0,0,0,.8)',
               }}
-              zoom={11}
+              zoom={12}
               center={locateMapCenter(fetchedEvents)}
-              // animation={DROP}
             >
               <EventMarker />
             </GoogleMap>

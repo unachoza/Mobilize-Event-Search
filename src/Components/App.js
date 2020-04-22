@@ -7,16 +7,12 @@ import { useEventsFetch } from 'API/MobilizeFetch';
 import { EventsContext } from 'Context/event.context';
 import 'Components/App.css';
 import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
-import { MOBILZE_BASE_URL, DEFAULT_ZIPCODE } from 'Constants/constants';
+import { MOBILZE_BASE_URL } from 'Constants/constants';
 
 const App = () => {
-  const [appendKey, setAppendKey] = useState(null);
-  const [appendValue, setAppendValue] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [requestUrl, setRequestUrl] = useState(null)
-  
-  
-  const { loading, error, fetchedEvents, hasMore } = useEventsFetch( pageNumber, requestUrl);
+  const [requestUrl, setRequestUrl] = useState(null);
+  const { loading, error, fetchedEvents, hasMore } = useEventsFetch(pageNumber, requestUrl);
 
   //infinite scroll
   const observer = useRef();
@@ -36,19 +32,11 @@ const App = () => {
     [loading, hasMore]
   );
 
-  // const upDateRequestUrl = (param, input) => {
-  
-  //   setPageNumber(0);
-  //   console.log('param is this ', param, 'input skipped', input);
-  // };
-  
-  const oldUpdateRequestUrl = (input, moreInputs = "") => {
-    
-    setRequestUrl(MOBILZE_BASE_URL + '&zipcode=' + input + moreInputs)
-     setPageNumber(1);
-    console.log('updating the request url', input, 'and', moreInputs)
-    
-  }
+  const oldUpdateRequestUrl = (input, moreInputs = '') => {
+    setRequestUrl(MOBILZE_BASE_URL + '&zipcode=' + input + moreInputs);
+    setPageNumber(1);
+  };
+
   return (
     <div>
       <Header />
@@ -70,6 +58,3 @@ const App = () => {
   );
 };
 export default App;
-
-// ********** EDGE CASES*******
-// 1. if one result map zoom don't work, so map won't render, same with eventList, need to make conditionals if fetchedEvents.lenght === 1

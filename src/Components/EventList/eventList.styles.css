@@ -1,26 +1,20 @@
-.event-list-container {
-
+.event-list__container {
   border-radius: 10px;
   box-shadow: black;
   width: 30vw;
   height: 80vh;
   margin-top: 13vh;
   overflow: scroll;
-animation: crescendo .3s ease-in
+  animation: crescendo 0.3s ease-in;
 }
 
-.event-list__title {
-  text-align: center;
-  width: 30vw;
-}
 .no-results {
-height: 100%;
-display: flex;
-align-items: center;
-color: #004ac7;
-font-size: 28px;
-animation: moveInLeft .3s ease-in
-
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #004ac7;
+  font-size: 28px;
+  animation: moveInLeft 0.3s ease-in;
 }
 
 @keyframes moveInLeft {

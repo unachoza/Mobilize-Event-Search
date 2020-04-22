@@ -42,30 +42,18 @@ export const useEventsFetch = ( pageNumber, requestUrl) => {
       setError(false);
       try {
         let data 
-        if (pageNumber > 1) {
-        data = await axios.get(nextPage)
-        } else if (requestUrl) {
-        data = await axios.get(requestUrl)
-        } else {
-        const params = new URLSearchParams({
-          zipcode: DEFAULT_ZIPCODE,
-        });
-        
-        data = await axios.get(MOBILZE_BASE_URL, {
-              params: params,
-            })
-        }
+        if (pageNumber > 1) data = await axios.get(nextPage);
+        else if (requestUrl) data = await axios.get(requestUrl);
+        else data = await axios.get(MOBILZE_BASE_URL + "&zipcode=" + DEFAULT_ZIPCODE);
         setFetchedEvents((prevEvents) => {
           return [...new Set([...prevEvents, ...data.data.data.map((event) => normalizeEventData(event))])];
-          
         });
         setHasMore(data.data.count > 0);
         setNextPage(data.data.next)
         setLoading(false);
       } catch (e) {
-        console.log('thisisitheerrorrrr', e.message)
+        console.log('this is the error', e.message)
         setError(true);
-        console.log(loading)
 
       }
     };

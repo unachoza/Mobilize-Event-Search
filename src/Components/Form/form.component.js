@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import AddEventFilter from 'Components/Form/addEventFilter.component';
 import 'Components/Form/form.styles.css';
 
-const validZipCodeRegEx = /^(\d{5}(?:-\d{4})?)$/;
-const MOBILZE_BASE_URL = 'https://api.mobilize.us/v1/events';
-
 const Form = (props) => {
   const [query, setQuery] = useState('');
   const [eventTypeQuery, setEventTypeQuery] = useState([]);
@@ -34,7 +31,6 @@ const Form = (props) => {
     props.oldUpdateRequestUrl(query, moreInputs);
     clearCheckboxesFromForm();
     setEventTypeQuery([]);
-    
     return moreInputs;
   };
 
@@ -55,11 +51,9 @@ const Form = (props) => {
         )}
          {!addEventTypesVisible && <button className="zipcode" onClick={(e) => setAddEventTypesVisible(true)}>Add Filters</button>}
       </form>
-     
       {addEventTypesVisible && <AddEventFilter handleEventFilters={handleEventFilters} doneAddingEvents={doneAddingEvents} />}
     </div>
   );
-  // }
 };
 
 export default Form;

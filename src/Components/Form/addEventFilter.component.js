@@ -1,16 +1,5 @@
 import React from 'react';
-
-const EVENT_TYPES = [
-  'canvass',
-  'phone_bank ',
-  'fundraiser',
-  'voter_reg',
-  'training',
-  'debate_watch_party',
-  'town_hall',
-  'barnstorm',
-  'signature_gathering',
-];
+import { EVENT_TYPES } from 'Constants/constants';
 
 const formatEventTypes = (event) => event.replace(new RegExp('_', 'g'), ' ').toLowerCase();
 
@@ -19,7 +8,7 @@ const AddEventFilter = ({ handleEventFilters, doneAddingEvents }) => {
     <div>
       <form className="form">
         {EVENT_TYPES.map((event, i) => (
-          <div key={i} className="event-type-option">
+          <div key={i} className="event-type__option">
             <input type="checkbox" id={event} name={event} value={event} hidden onClick={handleEventFilters} />
             <label for={event} value={event}>
               {formatEventTypes(event)}

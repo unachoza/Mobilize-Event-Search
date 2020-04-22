@@ -4,10 +4,9 @@ import 'Components/EventList/eventList.styles.css';
 import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 
 
-const EventList = ({ events, lastEventElementRef, loading, selectedMarker }) => {
-  console.log(events)
+const EventList = ({ events, lastEventElementRef, loading }) => {
   return (
-    <div className="event-list-container">
+    <div className="event-list__container">
       {!events.length ? (
         <div className="no-results">
           Oh dear!<br></br> Your search returned no events.
@@ -15,15 +14,14 @@ const EventList = ({ events, lastEventElementRef, loading, selectedMarker }) => 
       ) :
         (events.length < 2 ? <Event event={events[0]} />
           : Object.entries(events)
-            .map((event, i) => {
-              return (events.length === i + 1) ?
+            .map((event, i) => (
+             (events.length === i + 1) ?
                 <div ref={lastEventElementRef} key={i}>{event.title}</div>
                 : <Event key={i} event={event} />
-            })
+            ))
         )
       }
       {loading && <LoadingSpinner loading={loading} />}
-       {/* <div>{error && 'Error'}</div> */}
     </div>
   );
 };
