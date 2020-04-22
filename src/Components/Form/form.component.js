@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AddEventFilter from 'Components/Form/AddEventFilter/addEventFilter.component';
+import AddEventFilter from 'Components/Form/addEventFilter.component';
 import 'Components/Form/form.styles.css';
 
 const validZipCodeRegEx = /^(\d{5}(?:-\d{4})?)$/;
@@ -10,7 +10,7 @@ const Form = (props) => {
   const [eventTypeQuery, setEventTypeQuery] = useState([]);
   const [addEventTypesVisible, setAddEventTypesVisible] = useState(false);
 
-  const zipcodeQuery = (event) => {
+  const handleZipcodeQuery = (event) => {
     event.preventDefault();
     props.oldUpdateRequestUrl(query);
   };
@@ -19,14 +19,8 @@ const Form = (props) => {
     document.querySelectorAll('input[type=checkbox]').forEach((el) => (el.checked = false));
   };
 
-  const eventTypeQueries = (event) => {
-    event.preventDefault();
-    doneAddingEvents();
-    setEventTypeQuery([]);
-    clearCheckboxesFromForm();
-  };
 
-  const handleChange = (event) => {
+  const handleEventFilters = (event) => {
     const { value } = event.target;
     setEventTypeQuery([...eventTypeQuery, value]);
   };
@@ -38,6 +32,9 @@ const Form = (props) => {
         ? eventTypeQuery.map((type) => '&event_types=' + type).join('')
         : '&event_types=' + eventTypeQuery;
     props.oldUpdateRequestUrl(query, moreInputs);
+    clearCheckboxesFromForm();
+    setEventTypeQuery([]);
+    
     return moreInputs;
   };
 
@@ -52,14 +49,14 @@ const Form = (props) => {
           onBlur={(e) => setQuery(e.target.value)}
         />
         {!addEventTypesVisible && (
-          <button onClick={zipcodeQuery} className="zipcode">
+          <button onClick={handleZipcodeQuery} className="zipcode">
             Search
           </button>
         )}
          {!addEventTypesVisible && <button className="zipcode" onClick={(e) => setAddEventTypesVisible(true)}>Add Filters</button>}
       </form>
      
-      {addEventTypesVisible && <AddEventFilter handleChange={handleChange} doneAddingEvents={doneAddingEvents} />}
+      {addEventTypesVisible && <AddEventFilter handleEventFilters={handleEventFilters} doneAddingEvents={doneAddingEvents} />}
     </div>
   );
   // }

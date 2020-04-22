@@ -19,6 +19,7 @@ const normalizeEventData = (event) => ({
   },
   url: event.browser_url || null,
   eventImg: event.featured_image_url || null,
+  link: event.browser_url || null
 });
 
 
@@ -30,7 +31,6 @@ export const useEventsFetch = ( pageNumber, requestUrl) => {
   const [nextPage, setNextPage] = useState(null);
 
   useEffect((nextPage, fetchedEvents) => {
-    console.log('works clear', requestUrl)
     setNextPage(null);
     setFetchedEvents([]);
     
@@ -38,12 +38,10 @@ export const useEventsFetch = ( pageNumber, requestUrl) => {
   
   useEffect(() => {
     const fetchingFromAPI = async () => {
-      console.log(requestUrl, pageNumber,  "in api")
       setLoading(true);
       setError(false);
       try {
         let data 
-        // debugger
         if (pageNumber > 1) {
         data = await axios.get(nextPage)
         } else if (requestUrl) {
@@ -52,9 +50,7 @@ export const useEventsFetch = ( pageNumber, requestUrl) => {
         const params = new URLSearchParams({
           zipcode: DEFAULT_ZIPCODE,
         });
-          //need to loop throgh arrays of appending keys and values
-          
-          // data = await axios.get(MOBILZE_BASE_URL, {})
+        
         data = await axios.get(MOBILZE_BASE_URL, {
               params: params,
             })
@@ -67,7 +63,10 @@ export const useEventsFetch = ( pageNumber, requestUrl) => {
         setNextPage(data.data.next)
         setLoading(false);
       } catch (e) {
+        console.log('thisisitheerrorrrr', e.message)
         setError(true);
+        console.log(loading)
+
       }
     };
 

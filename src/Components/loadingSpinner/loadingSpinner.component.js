@@ -10,10 +10,12 @@ const override = css`
   width: 200px;
 `;
 
-const LoadingSpinner = (loading) => (
+const LoadingSpinner = ({loading}) => {
+  console.log(loading, 'hello from loading page')
+  return (
   <div className="sweet-loading">
   <PulseLoader css={override} sizeUnit={'px'} size={15} margin={6} color={'#004ac7'} loading={loading} />
   </div>
-);
+);}
 
 export default LoadingSpinner;

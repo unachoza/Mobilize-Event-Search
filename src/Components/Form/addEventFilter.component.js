@@ -14,13 +14,13 @@ const EVENT_TYPES = [
 
 const formatEventTypes = (event) => event.replace(new RegExp('_', 'g'), ' ').toLowerCase();
 
-const AddEventFilter = ({ handleChange, doneAddingEvents }) => {
+const AddEventFilter = ({ handleEventFilters, doneAddingEvents }) => {
   return (
     <div>
       <form className="form">
         {EVENT_TYPES.map((event, i) => (
           <div key={i} className="event-type-option">
-            <input type="checkbox" id={event} name={event} value={event} hidden onClick={handleChange} />
+            <input type="checkbox" id={event} name={event} value={event} hidden onClick={handleEventFilters} />
             <label for={event} value={event}>
               {formatEventTypes(event)}
             </label>

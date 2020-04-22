@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import 'Components/Map/map.styles.css';
-import EventsContext from 'Context/Events/event.context';
+import EventsContext from 'Context/event.context';
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const EventMarker = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
 
   useEffect(() => {
+    console.log(selectedMarker);
     return;
   }, [selectedMarker]);
 
   const divStyle = {
     background: `white`,
-    padding: 1,
-    color: 'blue',
+    color: '#004ac7',
+    height: '100%',
+    marginLeft: '10px',
+    fontSize: '15px',
+    fontWeight: '600',
     alignBottom: true,
     pane: 'mapPane',
   };
@@ -22,7 +26,6 @@ const EventMarker = () => {
   return (
     <EventsContext.Consumer>
       {(fetchedEvents) => {
-        // console.log(fetchedEvents);
         return (
           <div>
             {fetchedEvents
@@ -47,7 +50,9 @@ const EventMarker = () => {
                 onCloseClick={() => setSelectedMarker(null)}
               >
                 <div style={divStyle}>
-                  <p>{selectedMarker.title}</p>
+                  <p>
+                    <a href={selectedMarker.link} target="_blank" rel="noopener noreferrer" style={{textDecoration: 'none', color: '#004ac7' }}>{selectedMarker.title}</a>
+                  </p>
                   <p>{selectedMarker.eventType}</p>
                 </div>
               </InfoWindow>
@@ -60,10 +65,6 @@ const EventMarker = () => {
 };
 
 const Map = () => {
-  //   const options = {
-  //     streetViewControl: false,
-  //      Animation : DROP
-  // }
   const locateMapCenter = (
     fetchedEvents,
     center = {
@@ -92,11 +93,7 @@ const Map = () => {
                 boxShadow: '0 1rem 2rem rgba(0,0,0,.8)',
               }}
               zoom={11}
-              center={{
-                lat: 40.7128,
-                lng: -74.00,
-              }}
-              // center={locateMapCenter(fetchedEvents)}
+              center={locateMapCenter(fetchedEvents)}
               // animation={DROP}
             >
               <EventMarker />
@@ -109,16 +106,3 @@ const Map = () => {
 };
 
 export default React.memo(Map);
-
-// let marker = new google.maps.Marker({
-
-//         animation: google.maps.Animation.DROP,
-//       });
-
-//     function toggleBounce() {
-//       if (marker.getAnimation() !== null) {
-//         marker.setAnimation(null);
-//       } else {
-//         marker.setAnimation(google.maps.Animation.BOUNCE);
-//       }
-//     }

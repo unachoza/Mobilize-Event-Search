@@ -12,18 +12,17 @@ const Event = (props) => {
   const toggleDisplayDetails = () => {
     setDisplayDetails(!displayDetails);
   };
-  const { title, details, eventDate, eventType } = props.event[1];
+  const { title, details, eventDate } = props.event[1];
   return (
     <div className="event-card" onClick={toggleDisplayDetails}>
-      <div className="event-card__date">{getDate(eventDate.start)} <span style={{color:'green', float: 'right', marginRight: '30px'}}>{props.event[0]}</span></div>
+      <div className="event-card__date">{getDate(eventDate.start)} </div>
       <div className="event-card__title" onClick={toggleDisplayDetails}>
         {title.toUpperCase()}
       </div>
       {displayDetails ? <div className="event-card__description">{details}</div> : null}
-      <EventTagFooter eventTags={props.event[1]}  />
+      <EventTagFooter eventTags={props.event[1]} />
     </div>
   );
 };
 
 export default Event;
-

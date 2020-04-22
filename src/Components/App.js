@@ -4,7 +4,7 @@ import Form from 'Components/Form/form.component';
 import EventList from 'Components/EventList/eventList.component';
 import Header from 'Components/Header/header.component';
 import { useEventsFetch } from 'API/MobilizeFetch';
-import { EventsContext } from 'Context/Events/event.context';
+import { EventsContext } from 'Context/event.context';
 import 'Components/App.css';
 import LoadingSpinner from 'Components/loadingSpinner/loadingSpinner.component';
 import { MOBILZE_BASE_URL, DEFAULT_ZIPCODE } from 'Constants/constants';
@@ -49,7 +49,6 @@ const App = () => {
     console.log('updating the request url', input, 'and', moreInputs)
     
   }
-  
   return (
     <div>
       <Header />
@@ -58,14 +57,14 @@ const App = () => {
           <EventsContext.Provider value={fetchedEvents}>
             <EventList events={fetchedEvents} loading={loading} lastEventElementRef={lastEventElementRef} />
             <div className="main-page">
-              <Form oldUpdateRequestUrl={oldUpdateRequestUrl}/>
+              <Form oldUpdateRequestUrl={oldUpdateRequestUrl} />
+              {error && <div>ZipCode Not Valid</div>}
               <Map />
             </div>
           </EventsContext.Provider>
         ) : (
           <LoadingSpinner loading={loading} />
         )}
-        <div>{error && 'Error'}</div>
       </div>
     </div>
   );
